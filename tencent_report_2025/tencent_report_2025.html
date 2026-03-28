@@ -1,0 +1,1541 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>腾讯2025年度财报分析报告</title>
+    <script src="../chart.umd.min.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@300;400;500;700;900&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --tencent-red: #ED1C24;
+            --tencent-red-dark: #C4171D;
+            --tencent-red-light: #FF4D5A;
+            --tencent-blue: #1E90FF;
+            --tencent-gold: #FFB800;
+            --bg-dark: #0f0f1a;
+            --bg-card: #1a1a2e;
+            --bg-card-hover: #22223a;
+            --text-primary: #ffffff;
+            --text-secondary: #a0a0b0;
+            --border-color: #2a2a4a;
+            --green: #00C853;
+            --red: #FF3D00;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'Noto Sans SC', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: var(--bg-dark);
+            color: var(--text-primary);
+            line-height: 1.7;
+            overflow-x: hidden;
+        }
+
+        /* Hero Section */
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            background: linear-gradient(135deg, #0f0f1a 0%, #1a0a0e 50%, #0f0f1a 100%);
+            position: relative;
+            overflow: hidden;
+            padding: 40px 20px;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(ellipse at center, rgba(237,28,36,0.08) 0%, transparent 60%);
+            animation: pulse 8s ease-in-out infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); opacity: 0.5; }
+            50% { transform: scale(1.1); opacity: 1; }
+        }
+
+        .hero-badge {
+            display: inline-block;
+            background: linear-gradient(135deg, var(--tencent-red), var(--tencent-red-dark));
+            color: white;
+            padding: 8px 24px;
+            border-radius: 50px;
+            font-size: 14px;
+            font-weight: 500;
+            margin-bottom: 24px;
+            letter-spacing: 2px;
+        }
+
+        .hero h1 {
+            font-size: clamp(36px, 6vw, 72px);
+            font-weight: 900;
+            background: linear-gradient(135deg, #ffffff 0%, #ffccd5 50%, #ffffff 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 16px;
+            letter-spacing: -1px;
+        }
+
+        .hero-subtitle {
+            font-size: clamp(16px, 2.5vw, 24px);
+            color: var(--text-secondary);
+            margin-bottom: 8px;
+            font-weight: 300;
+        }
+
+        .hero-date {
+            font-size: 14px;
+            color: var(--tencent-red-light);
+            margin-bottom: 48px;
+            letter-spacing: 3px;
+        }
+
+        .hero-stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 24px;
+            max-width: 1000px;
+            width: 100%;
+        }
+
+        .hero-stat {
+            background: rgba(255,255,255,0.03);
+            border: 1px solid rgba(255,255,255,0.08);
+            border-radius: 20px;
+            padding: 28px 20px;
+            backdrop-filter: blur(20px);
+            transition: all 0.3s ease;
+        }
+
+        .hero-stat:hover {
+            transform: translateY(-4px);
+            border-color: rgba(237,28,36,0.4);
+            box-shadow: 0 20px 60px rgba(237,28,36,0.15);
+        }
+
+        .hero-stat-value {
+            font-size: 36px;
+            font-weight: 900;
+            color: white;
+            line-height: 1;
+        }
+
+        .hero-stat-label {
+            font-size: 13px;
+            color: var(--text-secondary);
+            margin-top: 8px;
+        }
+
+        .hero-stat-change {
+            display: inline-block;
+            margin-top: 12px;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 13px;
+            font-weight: 600;
+        }
+
+        .hero-stat-change.up {
+            background: rgba(0,200,83,0.15);
+            color: var(--green);
+        }
+
+        .scroll-hint {
+            position: absolute;
+            bottom: 40px;
+            left: 50%;
+            transform: translateX(-50%);
+            color: var(--text-secondary);
+            font-size: 13px;
+            animation: bounce 2s infinite;
+        }
+
+        @keyframes bounce {
+            0%, 100% { transform: translateX(-50%) translateY(0); }
+            50% { transform: translateX(-50%) translateY(8px); }
+        }
+
+        /* Navigation */
+        .nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 1000;
+            background: rgba(15,15,26,0.85);
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid var(--border-color);
+            padding: 0 24px;
+            transition: all 0.3s ease;
+        }
+
+        .nav-inner {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            align-items: center;
+            height: 64px;
+            gap: 32px;
+            overflow-x: auto;
+            scrollbar-width: none;
+        }
+
+        .nav-inner::-webkit-scrollbar { display: none; }
+
+        .nav-logo {
+            font-size: 18px;
+            font-weight: 700;
+            color: var(--tencent-red);
+            white-space: nowrap;
+            flex-shrink: 0;
+        }
+
+        .nav-item {
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 500;
+            padding: 8px 0;
+            white-space: nowrap;
+            transition: color 0.2s;
+            border-bottom: 2px solid transparent;
+        }
+
+        .nav-item:hover, .nav-item.active {
+            color: white;
+            border-bottom-color: var(--tencent-red);
+        }
+
+        /* Sections */
+        .section {
+            padding: 100px 24px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .section-tag {
+            display: inline-block;
+            font-size: 12px;
+            font-weight: 600;
+            letter-spacing: 3px;
+            color: var(--tencent-red);
+            text-transform: uppercase;
+            margin-bottom: 16px;
+        }
+
+        .section-title {
+            font-size: clamp(28px, 4vw, 42px);
+            font-weight: 700;
+            color: white;
+            margin-bottom: 16px;
+        }
+
+        .section-desc {
+            font-size: 16px;
+            color: var(--text-secondary);
+            max-width: 600px;
+            margin-bottom: 48px;
+            line-height: 1.8;
+        }
+
+        /* Cards Grid */
+        .cards-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 20px;
+        }
+
+        .card {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 16px;
+            padding: 28px;
+            transition: all 0.3s ease;
+            cursor: default;
+        }
+
+        .card:hover {
+            border-color: rgba(237,28,36,0.3);
+            background: var(--bg-card-hover);
+            transform: translateY(-2px);
+        }
+
+        .card-icon {
+            width: 48px;
+            height: 48px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            margin-bottom: 20px;
+        }
+
+        .card-title {
+            font-size: 18px;
+            font-weight: 700;
+            color: white;
+            margin-bottom: 12px;
+        }
+
+        .card-value {
+            font-size: 32px;
+            font-weight: 900;
+            color: white;
+            line-height: 1;
+            margin-bottom: 8px;
+        }
+
+        .card-sub {
+            font-size: 13px;
+            color: var(--text-secondary);
+            margin-bottom: 16px;
+        }
+
+        .card-change {
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+            padding: 4px 10px;
+            border-radius: 6px;
+            font-size: 13px;
+            font-weight: 600;
+        }
+
+        .card-change.up {
+            background: rgba(0,200,83,0.12);
+            color: var(--green);
+        }
+
+        .card-change.down {
+            background: rgba(255,61,0,0.12);
+            color: var(--red);
+        }
+
+        /* Chart containers */
+        .charts-row {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+            gap: 24px;
+        }
+
+        .chart-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 20px;
+            padding: 32px;
+        }
+
+        .chart-title {
+            font-size: 18px;
+            font-weight: 700;
+            color: white;
+            margin-bottom: 8px;
+        }
+
+        .chart-sub {
+            font-size: 13px;
+            color: var(--text-secondary);
+            margin-bottom: 24px;
+        }
+
+        .chart-wrap {
+            position: relative;
+            height: 280px;
+        }
+
+        /* Revenue breakdown */
+        .revenue-table {
+            width: 100%;
+            border-collapse: collapse;
+            background: var(--bg-card);
+            border-radius: 16px;
+            overflow: hidden;
+            border: 1px solid var(--border-color);
+        }
+
+        .revenue-table th {
+            background: rgba(237,28,36,0.1);
+            color: var(--tencent-red-light);
+            font-size: 12px;
+            font-weight: 600;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            padding: 16px 20px;
+            text-align: right;
+        }
+
+        .revenue-table th:first-child { text-align: left; }
+
+        .revenue-table td {
+            padding: 18px 20px;
+            font-size: 14px;
+            color: var(--text-secondary);
+            border-top: 1px solid var(--border-color);
+            text-align: right;
+        }
+
+        .revenue-table td:first-child {
+            text-align: left;
+            color: white;
+            font-weight: 600;
+        }
+
+        .revenue-table tr:hover td {
+            background: rgba(255,255,255,0.02);
+        }
+
+        .revenue-table .highlight {
+            color: var(--tencent-red-light);
+            font-weight: 700;
+        }
+
+        .revenue-table .sub {
+            font-size: 12px;
+            color: var(--text-secondary);
+        }
+
+        /* AI Section */
+        .ai-section {
+            background: linear-gradient(180deg, rgba(237,28,36,0.05) 0%, transparent 100%);
+            border-top: 1px solid var(--border-color);
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .ai-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 24px;
+        }
+
+        .ai-item {
+            display: flex;
+            gap: 20px;
+            padding: 24px;
+            background: rgba(255,255,255,0.02);
+            border: 1px solid var(--border-color);
+            border-radius: 16px;
+            transition: all 0.3s;
+        }
+
+        .ai-item:hover {
+            border-color: rgba(237,28,36,0.3);
+            background: rgba(237,28,36,0.03);
+        }
+
+        .ai-num {
+            width: 48px;
+            height: 48px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--tencent-red), var(--tencent-red-dark));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 900;
+            font-size: 18px;
+            flex-shrink: 0;
+        }
+
+        .ai-content h4 {
+            font-size: 16px;
+            font-weight: 700;
+            color: white;
+            margin-bottom: 8px;
+        }
+
+        .ai-content p {
+            font-size: 13px;
+            color: var(--text-secondary);
+            line-height: 1.7;
+        }
+
+        /* Highlight bar */
+        .highlight-bar {
+            background: linear-gradient(135deg, var(--tencent-red-dark), var(--tencent-red));
+            border-radius: 20px;
+            padding: 40px;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 32px;
+            margin: 48px 0;
+        }
+
+        .highlight-bar-item {
+            text-align: center;
+        }
+
+        .highlight-bar-item .value {
+            font-size: 42px;
+            font-weight: 900;
+            color: white;
+            line-height: 1;
+        }
+
+        .highlight-bar-item .label {
+            font-size: 13px;
+            color: rgba(255,255,255,0.7);
+            margin-top: 8px;
+        }
+
+        /* Timeline */
+        .timeline {
+            position: relative;
+            padding-left: 32px;
+        }
+
+        .timeline::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 0;
+            bottom: 0;
+            width: 2px;
+            background: linear-gradient(180deg, var(--tencent-red), transparent);
+        }
+
+        .timeline-item {
+            position: relative;
+            margin-bottom: 32px;
+            padding: 20px 24px;
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+        }
+
+        .timeline-item::before {
+            content: '';
+            position: absolute;
+            left: -38px;
+            top: 24px;
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: var(--tencent-red);
+            border: 3px solid var(--bg-dark);
+        }
+
+        .timeline-item h4 {
+            font-size: 15px;
+            font-weight: 700;
+            color: white;
+            margin-bottom: 8px;
+        }
+
+        .timeline-item p {
+            font-size: 13px;
+            color: var(--text-secondary);
+            line-height: 1.7;
+        }
+
+        /* Segments */
+        .segment-tabs {
+            display: flex;
+            gap: 8px;
+            margin-bottom: 32px;
+            flex-wrap: wrap;
+        }
+
+        .segment-tab {
+            padding: 10px 20px;
+            border-radius: 10px;
+            border: 1px solid var(--border-color);
+            background: transparent;
+            color: var(--text-secondary);
+            font-size: 14px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.2s;
+            font-family: inherit;
+        }
+
+        .segment-tab.active, .segment-tab:hover {
+            background: var(--tencent-red);
+            border-color: var(--tencent-red);
+            color: white;
+        }
+
+        .segment-content {
+            display: none;
+        }
+
+        .segment-content.active {
+            display: block;
+        }
+
+        /* Footer */
+        .footer {
+            text-align: center;
+            padding: 60px 24px;
+            border-top: 1px solid var(--border-color);
+            color: var(--text-secondary);
+            font-size: 13px;
+        }
+
+        .footer-logo {
+            font-size: 20px;
+            font-weight: 700;
+            color: var(--tencent-red);
+            margin-bottom: 12px;
+        }
+
+        /* Animations */
+        .fade-in {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .fade-in.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Divider */
+        .divider {
+            height: 1px;
+            background: linear-gradient(90deg, transparent, var(--border-color), transparent);
+            margin: 0;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .charts-row { grid-template-columns: 1fr; }
+            .hero-stats { grid-template-columns: repeat(2, 1fr); }
+            .highlight-bar { padding: 28px 20px; }
+            .highlight-bar-item .value { font-size: 28px; }
+        }
+
+        /* TOC */
+        .toc {
+            position: sticky;
+            top: 80px;
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 16px;
+            padding: 24px;
+            margin-bottom: 48px;
+        }
+
+        .toc-title {
+            font-size: 14px;
+            font-weight: 700;
+            color: white;
+            margin-bottom: 16px;
+        }
+
+        .toc-list {
+            list-style: none;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+
+        .toc-item {
+            display: inline-block;
+            padding: 6px 14px;
+            border-radius: 8px;
+            border: 1px solid var(--border-color);
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-size: 13px;
+            transition: all 0.2s;
+        }
+
+        .toc-item:hover {
+            border-color: var(--tencent-red);
+            color: var(--tencent-red-light);
+        }
+
+        /* Score card */
+        .score-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 16px;
+            margin-top: 24px;
+        }
+
+        .score-item {
+            background: rgba(255,255,255,0.03);
+            border-radius: 12px;
+            padding: 16px;
+            text-align: center;
+        }
+
+        .score-item .num {
+            font-size: 28px;
+            font-weight: 900;
+            color: white;
+        }
+
+        .score-item .denom {
+            font-size: 13px;
+            color: var(--text-secondary);
+        }
+
+        .score-item .label {
+            font-size: 12px;
+            color: var(--text-secondary);
+            margin-top: 4px;
+        }
+
+        /* Summary box */
+        .summary-box {
+            background: linear-gradient(135deg, rgba(237,28,36,0.08), rgba(237,28,36,0.03));
+            border: 1px solid rgba(237,28,36,0.2);
+            border-radius: 20px;
+            padding: 40px;
+            margin: 48px 0;
+        }
+
+        .summary-box h3 {
+            font-size: 22px;
+            font-weight: 700;
+            color: white;
+            margin-bottom: 24px;
+        }
+
+        .summary-list {
+            list-style: none;
+            display: grid;
+            gap: 16px;
+        }
+
+        .summary-list li {
+            display: flex;
+            align-items: flex-start;
+            gap: 12px;
+            font-size: 15px;
+            color: var(--text-secondary);
+        }
+
+        .summary-list li .bullet {
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            background: var(--tencent-red);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+            font-size: 12px;
+            font-weight: 700;
+            margin-top: 2px;
+        }
+    
+        .side-back {
+            position: fixed;
+            right: 24px;
+            top: 50%;
+            transform: translateY(-50%);
+            z-index: 999;
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 24px;
+            padding: 12px 18px;
+            text-decoration: none;
+            color: var(--text-secondary);
+            font-size: 13px;
+            font-weight: 500;
+            writing-mode: vertical-rl;
+            text-orientation: mixed;
+            letter-spacing: 2px;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+        }
+        .side-back:hover {
+            background: var(--bg-card-hover);
+            color: white;
+            border-color: rgba(255,255,255,0.2);
+            transform: translateY(-50%) translateX(-4px);
+        }
+    </style>
+</head>
+<body>
+
+<!-- Navigation -->
+<nav class="nav" id="nav">
+    <div class="nav-inner">
+        <span class="nav-logo">🦞 Tencent 2025</span>
+        <a href="#overview" class="nav-item active">核心指标</a>
+        <a href="#segments" class="nav-item">业务分部</a>
+        <a href="#quarterly" class="nav-item">季度表现</a>
+        <a href="#charts" class="nav-item">数据分析</a>
+        <a href="#ai" class="nav-item">AI布局</a>
+        <a href="#highlights" class="nav-item">年度亮点</a>
+    </div>
+</nav>
+
+<!-- Hero -->
+<section class="hero" id="overview">
+    <div class="hero-badge">🐧 港交所上市公司 · 股份代号：700</div>
+    <h1>腾讯控股</h1>
+    <p class="hero-subtitle">2025年度全年业绩公告 · 图文分析报告</p>
+    <p class="hero-date">截至2025年12月31日 · 公告日期：2026年3月18日</p>
+
+    <div class="hero-stats">
+        <div class="hero-stat">
+            <div class="hero-stat-value" style="color: #FF6B6B;">¥7,518亿</div>
+            <div class="hero-stat-label">全年收入</div>
+            <span class="hero-stat-change up">▲ 14% 同比增长</span>
+        </div>
+        <div class="hero-stat">
+            <div class="hero-stat-value" style="color: #4ECDC4;">¥2,248亿</div>
+            <div class="hero-stat-label">权益持有人应占盈利</div>
+            <span class="hero-stat-change up">▲ 16% 同比增长</span>
+        </div>
+        <div class="hero-stat">
+            <div class="hero-stat-value" style="color: #FFE66D;">¥2,596亿</div>
+            <div class="hero-stat-label">非国际准则盈利</div>
+            <span class="hero-stat-change up">▲ 17% 同比增长</span>
+        </div>
+        <div class="hero-stat">
+            <div class="hero-stat-value" style="color: #A8E6CF;">¥3,031亿</div>
+            <div class="hero-stat-label">经营现金流</div>
+            <span class="hero-stat-change up">▲ 17% 同比增长</span>
+        </div>
+    </div>
+
+    <div class="scroll-hint">↓ 向下滚动查看完整分析</div>
+</section>
+
+<!-- Floating Back Button -->
+<a href="../index.html" class="side-back">← 返回目录</a>
+
+<!-- TOC -->
+<div class="section" style="padding-top: 40px; padding-bottom: 0;">
+    <div class="toc">
+        <div class="toc-title">📑 报告目录</div>
+        <div class="toc-list">
+            <a href="#overview" class="toc-item">核心指标</a>
+            <a href="#segments" class="toc-item">业务分部</a>
+            <a href="#quarterly" class="toc-item">季度表现</a>
+            <a href="#charts" class="toc-item">数据分析</a>
+            <a href="#ai" class="toc-item">AI布局</a>
+            <a href="#highlights" class="toc-item">年度亮点</a>
+            <a href="#esg" class="toc-item">ESG与社会责任</a>
+            <a href="#summary" class="toc-item">总结展望</a>
+        </div>
+    </div>
+</div>
+
+<!-- Segment Performance -->
+<section class="section" id="segments">
+    <div class="section-tag">BUSINESS PERFORMANCE</div>
+    <h2 class="section-title">三大业务分部表现</h2>
+    <p class="section-desc">增值服务、营销服务、金融科技及企业服务三大板块均实现稳健增长，AI驱动的业务升级成效显著。</p>
+
+    <div class="segment-tabs">
+        <button class="segment-tab active" onclick="showSegment('value')">增值服务</button>
+        <button class="segment-tab" onclick="showSegment('marketing')">营销服务</button>
+        <button class="segment-tab" onclick="showSegment('fintech')">金融科技及企业服务</button>
+    </div>
+
+    <div class="segment-content active" id="seg-value">
+        <div class="cards-grid">
+            <div class="card">
+                <div class="card-icon" style="background: rgba(237,28,36,0.15);">🎮</div>
+                <div class="card-title">本土市场游戏</div>
+                <div class="card-value">¥1,642亿</div>
+                <div class="card-sub">全年收入</div>
+                <span class="card-change up">▲ 18%</span>
+                <p style="margin-top:16px;font-size:13px;color:var(--text-secondary);">
+                    《王者荣耀》《和平精英》等长青游戏持续增长，《三角洲行动》突破性成功，《无畏契约》系列PC端及移动端均表现强劲。
+                </p>
+            </div>
+            <div class="card">
+                <div class="card-icon" style="background: rgba(30,144,255,0.15);">🌍</div>
+                <div class="card-title">国际市场游戏</div>
+                <div class="card-value">¥774亿</div>
+                <div class="card-sub">全年收入 · 突破100亿美元</div>
+                <span class="card-change up">▲ 33%</span>
+                <p style="margin-top:16px;font-size:13px;color:var(--text-secondary);">
+                    国际市场年收入首次突破100亿美元！Supercell旗下游戏及《PUBG MOBILE》强劲增长，《鸣潮》增量收入贡献显著。
+                </p>
+            </div>
+            <div class="card">
+                <div class="card-icon" style="background: rgba(255,184,0,0.15);">💬</div>
+                <div class="card-title">社交网络</div>
+                <div class="card-value">¥1,277亿</div>
+                <div class="card-sub">全年收入</div>
+                <span class="card-change up">▲ 5%</span>
+                <p style="margin-top:16px;font-size:13px;color:var(--text-secondary);">
+                    视频号直播服务收入、音乐付费会员收入及手机游戏应用虚拟道具销售持续增长。
+                </p>
+            </div>
+        </div>
+        <div style="margin-top:32px;">
+            <table class="revenue-table">
+                <thead>
+                    <tr>
+                        <th>增值服务明细</th>
+                        <th>2025年</th>
+                        <th>2024年</th>
+                        <th>同比增长</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>本土市场游戏</td>
+                        <td class="highlight">¥1,642亿</td>
+                        <td>¥1,392亿</td>
+                        <td style="color:var(--green);font-weight:700;">+18%</td>
+                    </tr>
+                    <tr>
+                        <td>国际市场游戏</td>
+                        <td class="highlight">¥774亿</td>
+                        <td>¥582亿</td>
+                        <td style="color:var(--green);font-weight:700;">+33%</td>
+                    </tr>
+                    <tr>
+                        <td>社交网络</td>
+                        <td class="highlight">¥1,277亿</td>
+                        <td>¥1,217亿</td>
+                        <td style="color:var(--green);font-weight:700;">+5%</td>
+                    </tr>
+                    <tr style="background:rgba(237,28,36,0.05);">
+                        <td style="font-weight:700;">增值服务合计</td>
+                        <td class="highlight" style="font-size:16px;">¥3,693亿</td>
+                        <td>¥3,192亿</td>
+                        <td style="color:var(--green);font-weight:700;font-size:15px;">+16%</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <div class="segment-content" id="seg-marketing">
+        <div class="cards-grid">
+            <div class="card">
+                <div class="card-icon" style="background: rgba(78,205,196,0.15);">📺</div>
+                <div class="card-title">视频号</div>
+                <div class="card-value">📈 +20%+</div>
+                <div class="card-sub">总用户使用时长同比增长</div>
+                <p style="margin-top:16px;font-size:13px;color:var(--text-secondary);">
+                    受益于升级的内容推荐算法及更丰富的内容生态，视频号用户参与度显著提升。
+                </p>
+            </div>
+            <div class="card">
+                <div class="card-icon" style="background: rgba(168,230,207,0.15);">🎯</div>
+                <div class="card-title">腾讯广告 AIM+</div>
+                <div class="card-value">AI驱动</div>
+                <div class="card-sub">智能投放产品矩阵</div>
+                <p style="margin-top:16px;font-size:13px;color:var(--text-secondary);">
+                    升级广告技术基础模型，AI驱动的精准定向能力大幅提升，广告主使用AI制作更多广告，闭环广告占比持续提升。
+                </p>
+            </div>
+            <div class="card">
+                <div class="card-icon" style="background: rgba(255,230,109,0.15);">📊</div>
+                <div class="card-title">广告定价优势</div>
+                <div class="card-value">领先同业</div>
+                <div class="card-sub">保持远低于同业的广告加载率</div>
+                <p style="margin-top:16px;font-size:13px;color:var(--text-secondary);">
+                    广告单价及广告曝光量双增长，大多数主要行业的广告主投放均有所增长。
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <div class="segment-content" id="seg-fintech">
+        <div class="cards-grid">
+            <div class="card">
+                <div class="card-icon" style="background: rgba(156,39,176,0.15);">☁️</div>
+                <div class="card-title">腾讯云</div>
+                <div class="card-value">规模盈利</div>
+                <div class="card-sub">企业服务收入接近20%增长</div>
+                <span class="card-change up">▲ 规模效应显著</span>
+                <p style="margin-top:16px;font-size:13px;color:var(--text-secondary);">
+                    受益于企业AI需求上升、领先市场的PaaS及SaaS产品增长、供应链优化。实现规模化盈利！
+                </p>
+            </div>
+            <div class="card">
+                <div class="card-icon" style="background: rgba(0,200,83,0.15);">💰</div>
+                <div class="card-title">金融科技服务</div>
+                <div class="card-value">高个位数%</div>
+                <div class="card-sub">收入同比增长</div>
+                <p style="margin-top:16px;font-size:13px;color:var(--text-secondary);">
+                    理财服务、消费贷款服务及商业支付活动收入增加。通过深化与持牌金融机构合作，审慎风险管理。
+                </p>
+            </div>
+            <div class="card">
+                <div class="card-icon" style="background: rgba(255,152,0,0.15);">🏪</div>
+                <div class="card-title">微信小店</div>
+                <div class="card-value">快速增长</div>
+                <div class="card-sub">商家技术服务费收入增长</div>
+                <p style="margin-top:16px;font-size:13px;color:var(--text-secondary);">
+                    微信小店交易额上升带动商家技术服务费收入增长，交易体验和内容生态持续完善。
+                </p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- Quarterly Performance -->
+<section class="section" id="quarterly">
+    <div class="section-tag">QUARTERLY BREAKDOWN</div>
+    <h2 class="section-title">Q4 2025 季度表现</h2>
+    <p class="section-desc">第四季度收入同比增长13%达¥1,944亿元，环比增长0.8%，展现稳健增长态势。</p>
+
+    <div class="highlight-bar">
+        <div class="highlight-bar-item">
+            <div class="value">¥1,944亿</div>
+            <div class="label">Q4 收入</div>
+        </div>
+        <div class="highlight-bar-item">
+            <div class="value">¥583亿</div>
+            <div class="label">Q4 权益持有人应占盈利</div>
+        </div>
+        <div class="highlight-bar-item">
+            <div class="value">56%</div>
+            <div class="label">Q4 毛利率</div>
+        </div>
+        <div class="highlight-bar-item">
+            <div class="value">¥340亿</div>
+            <div class="label">Q4 自由现金流</div>
+        </div>
+    </div>
+
+    <table class="revenue-table">
+        <thead>
+            <tr>
+                <th>指标</th>
+                <th>Q4 2025</th>
+                <th>Q4 2024</th>
+                <th>同比增长</th>
+                <th>Q3 2025</th>
+                <th>环比增长</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>收入</td>
+                <td class="highlight">¥1,944亿</td>
+                <td>¥1,724亿</td>
+                <td style="color:var(--green);font-weight:700;">+13%</td>
+                <td>¥1,929亿</td>
+                <td style="color:var(--green);font-weight:700;">+0.8%</td>
+            </tr>
+            <tr>
+                <td>毛利</td>
+                <td class="highlight">¥1,083亿</td>
+                <td>¥907亿</td>
+                <td style="color:var(--green);font-weight:700;">+19%</td>
+                <td>¥1,088亿</td>
+                <td>-0.5%</td>
+            </tr>
+            <tr>
+                <td>经营盈利</td>
+                <td class="highlight">¥603亿</td>
+                <td>¥515亿</td>
+                <td style="color:var(--green);font-weight:700;">+17%</td>
+                <td>¥636亿</td>
+                <td>-5%</td>
+            </tr>
+            <tr>
+                <td>权益持有人应占盈利</td>
+                <td class="highlight">¥583亿</td>
+                <td>¥513亿</td>
+                <td style="color:var(--green);font-weight:700;">+14%</td>
+                <td>¥631亿</td>
+                <td>-8%</td>
+            </tr>
+            <tr>
+                <td>非国际准则权益持有人应占盈利</td>
+                <td class="highlight">¥647亿</td>
+                <td>¥553亿</td>
+                <td style="color:var(--green);font-weight:700;">+17%</td>
+                <td>¥706亿</td>
+                <td>-8%</td>
+            </tr>
+            <tr>
+                <td>毛利率</td>
+                <td>56%</td>
+                <td>53%</td>
+                <td style="color:var(--green);">+3pct</td>
+                <td>56%</td>
+                <td>持平</td>
+            </tr>
+        </tbody>
+    </table>
+</section>
+
+<div class="divider"></div>
+
+<!-- Charts -->
+<section class="section" id="charts">
+    <div class="section-tag">DATA ANALYSIS</div>
+    <h2 class="section-title">关键数据分析</h2>
+    <p class="section-desc">多维度分析腾讯2025年财务数据，洞察增长动力与业务结构变化。</p>
+
+    <div class="charts-row">
+        <div class="chart-card">
+            <div class="chart-title">📊 年度收入增长趋势</div>
+            <div class="chart-sub">2024 vs 2025 全年收入对比（单位：亿元）</div>
+            <div class="chart-wrap">
+                <canvas id="revenueChart"></canvas>
+            </div>
+        </div>
+        <div class="chart-card">
+            <div class="chart-title">🥧 2025年收入结构分布</div>
+            <div class="chart-sub">三大业务板块占总收入比例</div>
+            <div class="chart-wrap">
+                <canvas id="segmentPie"></canvas>
+            </div>
+        </div>
+    </div>
+
+    <div class="charts-row" style="margin-top:24px;">
+        <div class="chart-card">
+            <div class="chart-title">📈 各业务板块毛利率提升</div>
+            <div class="chart-sub">2024 vs 2025 毛利率对比</div>
+            <div class="chart-wrap">
+                <canvas id="marginChart"></canvas>
+            </div>
+        </div>
+        <div class="chart-card">
+            <div class="chart-title">💹 季度收入走势</div>
+            <div class="chart-sub">2024 Q1 ~ 2025 Q4 季度收入（亿元）</div>
+            <div class="chart-wrap">
+                <canvas id="quarterlyChart"></canvas>
+            </div>
+        </div>
+    </div>
+
+    <div class="charts-row" style="margin-top:24px;">
+        <div class="chart-card">
+            <div class="chart-title">🎮 游戏业务收入对比</div>
+            <div class="chart-sub">本土 vs 国际市场游戏收入（亿元）</div>
+            <div class="chart-wrap">
+                <canvas id="gameChart"></canvas>
+            </div>
+        </div>
+        <div class="chart-card">
+            <div class="chart-title">📊 利润指标对比</div>
+            <div class="chart-sub">国际准则 vs 非国际准则 权益持有人应占盈利（亿元）</div>
+            <div class="chart-wrap">
+                <canvas id="profitChart"></canvas>
+            </div>
+        </div>
+    </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- AI Section -->
+<section class="section ai-section" id="ai">
+    <div class="section-tag">🤖 AI STRATEGY</div>
+    <h2 class="section-title">AI战略布局</h2>
+    <p class="section-desc">混元3.0大语言模型智能水平持续提升，AI全面赋能各业务线，开创新的增长机遇。</p>
+
+    <div class="ai-grid">
+        <div class="ai-item">
+            <div class="ai-num">1</div>
+            <div class="ai-content">
+                <h4>混元基础模型 — 行业领导者</h4>
+                <p>在3D生成、文生图和世界建模等多模态能力方面成为行业领导者。受益于专有数据及丰富使用场景。</p>
+            </div>
+        </div>
+        <div class="ai-item">
+            <div class="ai-num">2</div>
+            <div class="ai-content">
+                <h4>AI驱动的广告精准定向</h4>
+                <p>升级广告技术基础模型，推出腾讯广告AIM+智能投放产品矩阵，大幅提升广告定向能力和营销效益。</p>
+            </div>
+        </div>
+        <div class="ai-item">
+            <div class="ai-num">3</div>
+            <div class="ai-content">
+                <h4>元宝、WorkBuddy及QClaw</h4>
+                <p>元宝、WorkBuddy及QClaw等AI产品产生实际效用，在微信等核心服务中部署新的AI能力。</p>
+            </div>
+        </div>
+        <div class="ai-item">
+            <div class="ai-num">4</div>
+            <div class="ai-content">
+                <h4>游戏AI加速内容制作</h4>
+                <p>在游戏中部署AI，加速内容制作，改善用户体验并提升营销效益。</p>
+            </div>
+        </div>
+        <div class="ai-item">
+            <div class="ai-num">5</div>
+            <div class="ai-content">
+                <h4>AI人才与技术基础设施</h4>
+                <p>引进顶尖AI人才升级团队，建立系统化提升基础模型智能水平的流程，升级AI基础设施。</p>
+            </div>
+        </div>
+        <div class="ai-item">
+            <div class="ai-num">6</div>
+            <div class="ai-content">
+                <h4>企业AI需求增长</h4>
+                <p>企业AI需求上升，腾讯云PaaS及SaaS产品领先市场，带动企业服务收入同比增长接近20%。</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="summary-box" style="margin-top:48px;">
+        <h3>🎯 AI投入的核心价值</h3>
+        <div class="summary-list">
+            <li>
+                <span class="bullet">✓</span>
+                <span>广告定向能力提升 → 广告单价和收入双增长</span>
+            </li>
+            <li>
+                <span class="bullet">✓</span>
+                <span>游戏内容加速制作 → 用户体验改善，生命周期延长</span>
+            </li>
+            <li>
+                <span class="bullet">✓</span>
+                <span>企业AI需求上升 → 腾讯云实现规模化盈利</span>
+            </li>
+            <li>
+                <span class="bullet">✓</span>
+                <span>AI原生应用（AI元宝等）→ 开辟新的增长机遇</span>
+            </li>
+        </div>
+    </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- Annual Highlights -->
+<section class="section" id="highlights">
+    <div class="section-tag">🏆 KEY ACHIEVEMENTS</div>
+    <h2 class="section-title">年度重点成就</h2>
+    <p class="section-desc">2025年腾讯在多个关键领域取得突破性进展。</p>
+
+    <div class="timeline">
+        <div class="timeline-item">
+            <h4>🎮 《三角洲行动》突破性成功</h4>
+            <p>长青游戏组合进一步扩充，凭借季度平均日活跃账户数超过500万及年流水超40亿元的优异表现，成为新的旗舰级产品。</p>
+        </div>
+        <div class="timeline-item">
+            <h4>🌍 国际市场游戏年收入突破100亿美元</h4>
+            <p>受益于长青游戏的持续增长及内容驱动游戏的快速扩张，国际市场年收入首次突破100亿美元大关。</p>
+        </div>
+        <div class="timeline-item">
+            <h4>📺 视频号用户时长增长超20%</h4>
+            <p>受益于升级的内容推荐算法及更丰富的内容生态，视频号总用户使用时长同比增长超过20%。</p>
+        </div>
+        <div class="timeline-item">
+            <h4>☁️ 腾讯云实现规模化盈利</h4>
+            <p>受益于企业AI需求上升、领先市场的PaaS及SaaS产品贡献增长，以及供应链优化。</p>
+        </div>
+        <div class="timeline-item">
+            <h4>📱 微信生态持续繁荣</h4>
+            <p>微信小店、小游戏及其他内容小程序用户参与度同比快速增长，交易体验和内容生态不断完善。</p>
+        </div>
+        <div class="timeline-item">
+            <h4>🎬 腾讯视频会员数同比上升</h4>
+            <p>保持在中国长视频市场的领先地位，腾讯音乐ARPU和会员数同比提升，巩固市场领先优势。</p>
+        </div>
+        <div class="timeline-item">
+            <h4>💳 金融科技健康增长</h4>
+            <p>通过深化与持牌金融机构合作及审慎风险管理，金融科技业务收入保持健康增长。</p>
+        </div>
+    </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- ESG Section -->
+<section class="section" id="esg">
+    <div class="section-tag">🌱 SUSTAINABILITY</div>
+    <h2 class="section-title">可持续发展与社会责任</h2>
+    <p class="section-desc">腾讯在环境保护、社会责任和公司治理方面持续发力，获得广泛认可。</p>
+
+    <div class="cards-grid">
+        <div class="card">
+            <div class="card-icon" style="background: rgba(255,152,0,0.15);">💝</div>
+            <div class="card-title">久久公益节</div>
+            <p style="font-size:14px;color:var(--text-secondary);">
+                提倡把公益融入日常生活，通过社交网络、数字工具及线下合作伙伴，吸引用户参与超过<strong style="color:white;">5.3亿次</strong>慈善活动。
+            </p>
+        </div>
+        <div class="card">
+            <div class="card-icon" style="background: rgba(156,39,176,0.15);">🔬</div>
+            <div class="card-title">科学探索奖 & 新基石研究员项目</div>
+            <p style="font-size:14px;color:var(--text-secondary);">
+                至今已资助超过<strong style="color:white;">430名</strong>杰出科学家，助力他们追寻基础科研的原创突破。
+            </p>
+        </div>
+        <div class="card">
+            <div class="card-icon" style="background: rgba(0,200,83,0.15);">🌍</div>
+            <div class="card-title">碳中和目标</div>
+            <p style="font-size:14px;color:var(--text-secondary);">
+                通过改善能源效率、推进转用绿色电力及减少供应链碳排放的举措，如期迈向2030年前达到碳中和目标。
+            </p>
+        </div>
+        <div class="card">
+            <div class="card-icon" style="background: rgba(30,144,255,0.15);">🏅</div>
+            <div class="card-title">ESG评级提升</div>
+            <p style="font-size:14px;color:var(--text-secondary);">
+                MSCI评级由<strong style="color:white;">BBB级</strong>提升到<strong style="color:white;">A级</strong>，被纳入主要ESG指数，获得多个ESG奖项。
+            </p>
+        </div>
+    </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- Shareholder Returns -->
+<section class="section" id="summary">
+    <div class="section-tag">💰 SHAREHOLDER RETURNS</div>
+    <h2 class="section-title">股东回报</h2>
+
+    <div class="highlight-bar">
+        <div class="highlight-bar-item">
+            <div class="value">¥5.30</div>
+            <div class="label">建议末期股息（港元/股）</div>
+        </div>
+        <div class="highlight-bar-item">
+            <div class="value">+18%</div>
+            <div class="label">每股派息同比增长</div>
+        </div>
+        <div class="highlight-bar-item">
+            <div class="value">¥1,071亿</div>
+            <div class="label">现金净额</div>
+        </div>
+        <div class="highlight-bar-item">
+            <div class="value">¥6,727亿</div>
+            <div class="label">上市投资公允价值</div>
+        </div>
+    </div>
+
+    <div class="summary-box">
+        <h3>📋 核心投资要点</h3>
+        <div class="summary-list">
+            <li>
+                <span class="bullet">1</span>
+                <span><strong style="color:white;">游戏业务双位数增长：</strong>本土+18%、国际+33%，长青游戏策略成效显著，国际市场首破100亿美元</span>
+            </li>
+            <li>
+                <span class="bullet">2</span>
+                <span><strong style="color:white;">AI驱动广告增长：</strong>营销服务收入+19%，AIM+大幅提升精准定向能力，广告单价和曝光量双增长</span>
+            </li>
+            <li>
+                <span class="bullet">3</span>
+                <span><strong style="color:white;">腾讯云规模化盈利：</strong>企业服务收入接近+20%，AI需求成为新增长引擎</span>
+            </li>
+            <li>
+                <span class="bullet">4</span>
+                <span><strong style="color:white;">毛利率显著提升：</strong>从53%→56%，高毛利率收入贡献增加，规模效应显现</span>
+            </li>
+            <li>
+                <span class="bullet">5</span>
+                <span><strong style="color:white;">强健现金流：</strong>现金净额¥1,071亿，为AI基础设施投资提供充足支撑</span>
+            </li>
+            <li>
+                <span class="bullet">6</span>
+                <span><strong style="color:white;">股东回报提升：</strong>末期股息+18%，持续通过回购和分红回报股东</span>
+            </li>
+        </div>
+    </div>
+
+    <div class="cards-grid" style="margin-top:32px;">
+        <div class="card">
+            <div class="card-icon" style="background: rgba(237,28,36,0.15);">👥</div>
+            <div class="card-title">微信及WeChat合并MAU</div>
+            <div class="card-value">14.18亿</div>
+            <div class="card-sub">同比增长2% · 环比增长0.3%</div>
+        </div>
+        <div class="card">
+            <div class="card-icon" style="background: rgba(255,184,0,0.15);">💳</div>
+            <div class="card-title">收费增值服务订阅会员</div>
+            <div class="card-value">2.67亿</div>
+            <div class="card-sub">同比增长2% · 环比增长0.8%</div>
+        </div>
+        <div class="card">
+            <div class="card-icon" style="background: rgba(0,200,83,0.15);">📊</div>
+            <div class="card-title">EBITDA率</div>
+            <div class="card-value">45%</div>
+            <div class="card-sub">2025年全年 · 2024年为42%</div>
+        </div>
+    </div>
+</section>
+
+<!-- Footer -->
+<footer class="footer">
+    <div class="footer-logo">🦞</div>
+    <p>报告基于腾讯控股（港交所：700）2025年度全年业绩公告编制</p>
+    <p style="margin-top:8px;">数据来源：香港联合交易所官方公告 · 公告日期：2026年3月18日</p>
+    <p style="margin-top:16px;opacity:0.5;">本报告仅供参考，不构成任何投资建议</p>
+</footer>
+
+<script>
+    // Segment tabs
+    function showSegment(name) {
+        document.querySelectorAll('.segment-content').forEach(el => el.classList.remove('active'));
+        document.querySelectorAll('.segment-tab').forEach(el => el.classList.remove('active'));
+        document.getElementById('seg-' + name).classList.add('active');
+        event.target.classList.add('active');
+    }
+
+    // Nav scroll effect
+    window.addEventListener('scroll', () => {
+        const nav = document.getElementById('nav');
+        if (window.scrollY > 100) {
+            nav.style.boxShadow = '0 4px 30px rgba(0,0,0,0.3)';
+        } else {
+            nav.style.boxShadow = 'none';
+        }
+    });
+
+    // Charts
+    const chartFont = { family: "'Noto Sans SC', sans-serif", size: 12 };
+
+    // Revenue Chart
+    new Chart(document.getElementById('revenueChart'), {
+        type: 'bar',
+        data: {
+            labels: ['增值服务', '营销服务', '金融科技及企业服务', '其他'],
+            datasets: [
+                { label: '2025年', data: [3693, 1450, 2294, 81], backgroundColor: 'rgba(237,28,36,0.8)', borderRadius: 8 },
+                { label: '2024年', data: [3192, 1214, 2120, 78], backgroundColor: 'rgba(255,255,255,0.1)', borderRadius: 8 }
+            ]
+        },
+        options: {
+            responsive: true, maintainAspectRatio: false,
+            plugins: { legend: { labels: { color: '#a0a0b0', font: chartFont } } },
+            scales: {
+                x: { ticks: { color: '#a0a0b0', font: chartFont }, grid: { color: 'rgba(255,255,255,0.05)' } },
+                y: { ticks: { color: '#a0a0b0', font: chartFont }, grid: { color: 'rgba(255,255,255,0.05)' } }
+            }
+        }
+    });
+
+    // Segment Pie
+    new Chart(document.getElementById('segmentPie'), {
+        type: 'doughnut',
+        data: {
+            labels: ['增值服务 49%', '营销服务 19%', '金融科技及企业服务 31%', '其他 1%'],
+            datasets: [{
+                data: [49, 19, 31, 1],
+                backgroundColor: ['#ED1C24', '#1E90FF', '#FFB800', '#888'],
+                borderWidth: 0, hoverOffset: 8
+            }]
+        },
+        options: {
+            responsive: true, maintainAspectRatio: false,
+            plugins: {
+                legend: { position: 'bottom', labels: { color: '#a0a0b0', font: chartFont, padding: 16 } }
+            }
+        }
+    });
+
+    // Margin Chart
+    new Chart(document.getElementById('marginChart'), {
+        type: 'bar',
+        data: {
+            labels: ['增值服务', '营销服务', '金融科技及企业服务', '整体'],
+            datasets: [
+                { label: '2025毛利率', data: [60, 58, 51, 56], backgroundColor: 'rgba(237,28,36,0.8)', borderRadius: 8 },
+                { label: '2024毛利率', data: [57, 55, 47, 53], backgroundColor: 'rgba(255,255,255,0.1)', borderRadius: 8 }
+            ]
+        },
+        options: {
+            responsive: true, maintainAspectRatio: false,
+            plugins: { legend: { labels: { color: '#a0a0b0', font: chartFont } } },
+            scales: {
+                x: { ticks: { color: '#a0a0b0', font: chartFont }, grid: { color: 'rgba(255,255,255,0.05)' } },
+                y: { ticks: { color: '#a0a0b0', font: chartFont, callback: v => v + '%' }, grid: { color: 'rgba(255,255,255,0.05)' }, max: 70 }
+            }
+        }
+    });
+
+    // Quarterly Chart
+    new Chart(document.getElementById('quarterlyChart'), {
+        type: 'line',
+        data: {
+            labels: ['Q1\'24', 'Q2\'24', 'Q3\'24', 'Q4\'24', 'Q1\'25', 'Q2\'25', 'Q3\'25', 'Q4\'25'],
+            datasets: [{
+                label: '季度收入（亿元）',
+                data: [1595, 1612, 1672, 1724, 1800, 1846, 1929, 1944],
+                borderColor: '#ED1C24', backgroundColor: 'rgba(237,28,36,0.1)',
+                fill: true, tension: 0.4, pointRadius: 5, pointBackgroundColor: '#ED1C24'
+            }]
+        },
+        options: {
+            responsive: true, maintainAspectRatio: false,
+            plugins: { legend: { labels: { color: '#a0a0b0', font: chartFont } } },
+            scales: {
+                x: { ticks: { color: '#a0a0b0', font: chartFont }, grid: { color: 'rgba(255,255,255,0.05)' } },
+                y: { ticks: { color: '#a0a0b0', font: chartFont }, grid: { color: 'rgba(255,255,255,0.05)' } }
+            }
+        }
+    });
+
+    // Game Chart
+    new Chart(document.getElementById('gameChart'), {
+        type: 'bar',
+        data: {
+            labels: ['本土市场游戏', '国际市场游戏'],
+            datasets: [
+                { label: '2025年', data: [1642, 774], backgroundColor: 'rgba(237,28,36,0.8)', borderRadius: 8 },
+                { label: '2024年', data: [1392, 582], backgroundColor: 'rgba(255,255,255,0.1)', borderRadius: 8 }
+            ]
+        },
+        options: {
+            responsive: true, maintainAspectRatio: false,
+            plugins: { legend: { labels: { color: '#a0a0b0', font: chartFont } } },
+            scales: {
+                x: { ticks: { color: '#a0a0b0', font: chartFont }, grid: { color: 'rgba(255,255,255,0.05)' } },
+                y: { ticks: { color: '#a0a0b0', font: chartFont }, grid: { color: 'rgba(255,255,255,0.05)' } }
+            }
+        }
+    });
+
+    // Profit Chart
+    new Chart(document.getElementById('profitChart'), {
+        type: 'bar',
+        data: {
+            labels: ['2024全年', '2025全年'],
+            datasets: [
+                { label: '权益持有人应占盈利（IFRS）', data: [1941, 2248], backgroundColor: 'rgba(237,28,36,0.6)', borderRadius: 8 },
+                { label: '非IFRS权益持有人应占盈利', data: [2227, 2596], backgroundColor: 'rgba(78,205,196,0.6)', borderRadius: 8 }
+            ]
+        },
+        options: {
+            responsive: true, maintainAspectRatio: false,
+            plugins: { legend: { labels: { color: '#a0a0b0', font: chartFont } } },
+            scales: {
+                x: { ticks: { color: '#a0a0b0', font: chartFont }, grid: { color: 'rgba(255,255,255,0.05)' } },
+                y: { ticks: { color: '#a0a0b0', font: chartFont }, grid: { color: 'rgba(255,255,255,0.05)' } }
+            }
+        }
+    });
+
+    // Scroll animations
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(el => {
+            if (el.isIntersecting) el.target.classList.add('visible');
+        });
+    }, { threshold: 0.1 });
+
+    document.querySelectorAll('.card, .timeline-item, .ai-item').forEach(el => {
+        el.classList.add('fade-in');
+        observer.observe(el);
+    });
+
+    // Smooth scroll
+    document.querySelectorAll('.toc-item, .nav-item').forEach(el => {
+        el.addEventListener('click', e => {
+            e.preventDefault();
+            const target = document.querySelector(el.getAttribute('href'));
+            if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        });
+    });
+</script>
+
+</body>
+</html>

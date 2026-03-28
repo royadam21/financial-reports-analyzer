@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>上市公司财报分析</title>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@300;400;500;700;900&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-dark: #0f0f1a;
+            --bg-card: #1a1a2e;
+            --bg-card-hover: #22223a;
+            --text-primary: #ffffff;
+            --text-secondary: #a0a0b0;
+            --border-color: #2a2a4a;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'Noto Sans SC', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: var(--bg-dark);
+            color: var(--text-primary);
+            line-height: 1.7;
+            min-height: 100vh;
+        }
+
+        /* Hero */
+        .hero {
+            min-height: auto;
+            padding: 40px 24px 32px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+        }
+
+        .hero-icon { font-size: 32px; margin-bottom: 14px; }
+
+        .hero h1 {
+            font-size: clamp(24px, 5vw, 38px);
+            font-weight: 900;
+            background: linear-gradient(135deg, #ffffff 0%, #a0a0b0 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 10px;
+        }
+
+        .hero-sub {
+            font-size: 14px;
+            color: var(--text-secondary);
+            max-width: 400px;
+        }
+
+        /* Main */
+        .main {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 30px 24px 80px;
+        }
+
+        /* Year Section */
+        .year-section {
+            margin-bottom: 36px;
+        }
+
+        .year-title {
+            font-size: 13px;
+            font-weight: 600;
+            color: var(--text-secondary);
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin-bottom: 16px;
+            padding-left: 4px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .year-title::after {
+            content: '';
+            flex: 1;
+            height: 1px;
+            background: var(--border-color);
+            margin-left: 12px;
+        }
+
+        /* Company Grid */
+        .company-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 14px;
+        }
+
+        /* Company Card */
+        .company-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 16px;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-decoration: none;
+            color: var(--text-primary);
+            transition: all 0.25s ease;
+        }
+
+        .company-card:hover {
+            background: var(--bg-card-hover);
+            border-color: rgba(255,255,255,0.15);
+            transform: translateY(-3px);
+            box-shadow: 0 12px 40px rgba(0,0,0,0.3);
+        }
+
+        .company-logo {
+            width: 64px;
+            height: 64px;
+            border-radius: 14px;
+            margin-bottom: 14px;
+            object-fit: contain;
+            object-position: center;
+            background: white;
+            padding: 6px;
+        }
+
+        .company-name {
+            font-size: 16px;
+            font-weight: 700;
+            margin-bottom: 4px;
+        }
+
+        .company-year {
+            font-size: 12px;
+            color: var(--text-secondary);
+        }
+
+        .company-card .arrow {
+            margin-top: 10px;
+            font-size: 16px;
+            opacity: 0;
+            transform: translateX(-4px);
+            transition: all 0.2s;
+        }
+
+        .company-card:hover .arrow {
+            opacity: 1;
+            transform: translateX(0);
+        }
+
+        /* Coming Soon */
+        .company-card.disabled {
+            opacity: 0.4;
+            cursor: default;
+            pointer-events: none;
+        }
+
+        .company-card.disabled:hover {
+            transform: none;
+            background: var(--bg-card);
+            border-color: var(--border-color);
+            box-shadow: none;
+        }
+
+        /* Footer */
+        .footer {
+            text-align: center;
+            padding: 40px 24px;
+            color: var(--text-secondary);
+            font-size: 12px;
+            border-top: 1px solid var(--border-color);
+        }
+
+        .footer-logo { font-size: 14px; font-weight: 700; margin-bottom: 6px; opacity: 0.5; }
+
+        /* Mobile Responsive */
+        @media (max-width: 600px) {
+            .hero { padding: 28px 16px 24px; }
+            .hero-icon { font-size: 28px; margin-bottom: 10px; }
+            .main { padding: 20px 16px 60px; }
+            .company-grid { grid-template-columns: repeat(2, 1fr); gap: 10px; }
+            .company-card { padding: 16px 12px; border-radius: 14px; }
+            .company-logo { width: 52px; height: 52px; margin-bottom: 10px; }
+            .company-name { font-size: 14px; }
+            .company-year { font-size: 11px; }
+        }
+    </style>
+</head>
+<body>
+    <header class="hero">
+        <div class="hero-icon">📊</div>
+        <h1>上市公司财报分析</h1>
+
+    </header>
+
+    <main class="main">
+        <!-- 2025年度 -->
+        <div class="year-section">
+            <h2 class="year-title">📅 2025年度</h2>
+            <div class="company-grid">
+                <a href="tencent_report_2025/tencent_report_2025.html" class="company-card" data-web="tencent_report_2025/tencent_report_2025.html" data-mobile="tencent_report_2025/tencent_report_2025_mobile.html">
+                    <img src="logo/tencent_logo.jpeg" alt="腾讯" class="company-logo">
+                    <div class="company-name">腾讯控股</div>
+                    <div class="company-year">2025年度报告</div>
+                    <span class="arrow">→</span>
+                </a>
+                <a href="meituan_report_2025/meituan_report_2025.html" class="company-card" data-web="meituan_report_2025/meituan_report_2025.html" data-mobile="meituan_report_2025/meituan_report_2025_mobile.html">
+                    <img src="logo/meituan_logo.jpeg" alt="美团" class="company-logo">
+                    <div class="company-name">美团点评</div>
+                    <div class="company-year">2025年度报告</div>
+                    <span class="arrow">→</span>
+                </a>
+                <a href="pingan_report_2025/pingan_report_2025.html" class="company-card" data-web="pingan_report_2025/pingan_report_2025.html" data-mobile="pingan_report_2025/pingan_report_2025_mobile.html">
+                    <img src="logo/pingan_logo.jpeg" alt="平安" class="company-logo">
+                    <div class="company-name">中国平安</div>
+                    <div class="company-year">2025年度报告</div>
+                    <span class="arrow">→</span>
+                </a>
+                <a href="byd_report_2025/byd_report_2025.html" class="company-card" data-web="byd_report_2025/byd_report_2025.html" data-mobile="byd_report_2025/byd_report_2025_mobile.html">
+                    <img src="logo/BYDlogo.jpeg" alt="比亚迪" class="company-logo">
+                    <div class="company-name">比亚迪</div>
+                    <div class="company-year">2025年度报告</div>
+                    <span class="arrow">→</span>
+                </a>
+            </div>
+        </div>
+
+        <!-- 陆续更新 -->
+        <div class="year-section">
+            <h2 class="year-title">🔜 陆续更新</h2>
+            <div class="company-grid">
+                <div class="company-card disabled">
+                    <img src="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'><rect fill='%232a2a4a' width='64' height='64' rx='14'/><text x='50%25' y='55%25' dominant-baseline='middle' text-anchor='middle' fill='%23666' font-size='28'>❓</text></svg>" alt="更多公司" class="company-logo">
+                    <div class="company-name">更多公司</div>
+                    <div class="company-year">阿里巴巴、京东...</div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer class="footer">
+        <div class="footer-logo">🦞 虾砌码出品</div>
+        <p>最后更新：2026年3月28日</p>
+    </footer>
+
+    <script>
+        (function() {
+            var isMobile = /Mobi|Android|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+            var links = document.querySelectorAll('a.company-card[data-web][data-mobile]');
+            
+            links.forEach(function(link) {
+                var targetUrl = isMobile ? link.getAttribute('data-mobile') : link.getAttribute('data-web');
+                link.setAttribute('href', targetUrl);
+            });
+        })();
+    </script>
+</body>
+</html>

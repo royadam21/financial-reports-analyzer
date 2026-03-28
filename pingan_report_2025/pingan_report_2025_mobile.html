@@ -1,0 +1,1022 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>中国平安2025年度财报分析报告 - 移动版</title>
+    <script src="../chart.umd.min.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@300;400;500;700;900&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --pingan-orange: #FF6B35;
+            --pingan-orange-dark: #E55A2B;
+            --pingan-orange-light: #FF8A5B;
+            --pingan-blue: #0066CC;
+            --bg-dark: #0f0f1a;
+            --bg-card: #1a1a2e;
+            --text-primary: #ffffff;
+            --text-secondary: #a0a0b0;
+            --border-color: #2a2a4a;
+            --green: #00C853;
+            --red: #FF3D00;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'Noto Sans SC', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: var(--bg-dark);
+            color: var(--text-primary);
+            line-height: 1.7;
+            padding-bottom: 100px;
+        }
+
+        /* Header */
+        .header {
+            background: linear-gradient(135deg, var(--pingan-orange), var(--pingan-orange-dark));
+            padding: 60px 20px 40px;
+            text-align: center;
+        }
+
+        .header-badge {
+            display: inline-block;
+            background: rgba(255,255,255,0.2);
+            color: white;
+            padding: 6px 16px;
+            border-radius: 20px;
+            font-size: 12px;
+            margin-bottom: 16px;
+        }
+
+        .header h1 {
+            font-size: 28px;
+            font-weight: 700;
+            margin-bottom: 8px;
+        }
+
+        .header p {
+            font-size: 14px;
+            opacity: 0.9;
+        }
+
+        /* Container */
+        .container {
+            padding: 24px 16px;
+        }
+
+        /* Section */
+        .section {
+            margin-bottom: 32px;
+        }
+
+        .section-title {
+            font-size: 20px;
+            font-weight: 600;
+            margin-bottom: 16px;
+            padding-left: 12px;
+            border-left: 4px solid var(--pingan-orange);
+        }
+
+        /* KPI Cards */
+        .kpi-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 12px;
+        }
+
+        .kpi-card {
+            background: var(--bg-card);
+            border-radius: 12px;
+            padding: 16px;
+            border: 1px solid var(--border-color);
+        }
+
+        .kpi-label {
+            font-size: 11px;
+            color: var(--text-secondary);
+            margin-bottom: 6px;
+        }
+
+        .kpi-value {
+            font-size: 22px;
+            font-weight: 700;
+            color: var(--pingan-orange);
+            margin-bottom: 4px;
+        }
+
+        .kpi-value .unit {
+            font-size: 12px;
+            color: var(--text-secondary);
+        }
+
+        .kpi-change {
+            font-size: 11px;
+            padding: 2px 8px;
+            border-radius: 10px;
+            display: inline-block;
+        }
+
+        .kpi-change.positive {
+            background: rgba(0,200,83,0.15);
+            color: var(--green);
+        }
+
+        .kpi-change.negative {
+            background: rgba(255,61,0,0.15);
+            color: var(--red);
+        }
+
+        /* Summary Strip */
+        .summary-strip {
+            display: flex;
+            justify-content: space-between;
+            background: var(--bg-card);
+            border-radius: 12px;
+            padding: 16px;
+            margin-bottom: 20px;
+            border: 1px solid var(--border-color);
+        }
+
+        .summary-item {
+            text-align: center;
+            flex: 1;
+        }
+
+        .summary-item:not(:last-child) {
+            border-right: 1px solid var(--border-color);
+        }
+
+        .summary-number {
+            font-size: 18px;
+            font-weight: 700;
+            color: var(--pingan-orange);
+            margin-bottom: 4px;
+        }
+
+        .summary-label {
+            font-size: 10px;
+            color: var(--text-secondary);
+        }
+
+        /* Chart Container */
+        .chart-container {
+            background: var(--bg-card);
+            border-radius: 12px;
+            padding: 16px;
+            border: 1px solid var(--border-color);
+            margin-bottom: 16px;
+        }
+
+        .chart-title {
+            font-size: 14px;
+            font-weight: 600;
+            margin-bottom: 12px;
+            color: var(--text-primary);
+        }
+
+        .chart-wrapper {
+            height: 200px;
+            position: relative;
+        }
+
+        /* Segment Cards */
+        .segment-list {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .segment-item {
+            background: var(--bg-card);
+            border-radius: 12px;
+            padding: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            border: 1px solid var(--border-color);
+        }
+
+        .segment-left {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .segment-icon {
+            font-size: 28px;
+        }
+
+        .segment-name {
+            font-size: 14px;
+            color: var(--text-secondary);
+        }
+
+        .segment-right {
+            text-align: right;
+        }
+
+        .segment-value {
+            font-size: 18px;
+            font-weight: 700;
+            color: var(--pingan-orange);
+        }
+
+        .segment-change {
+            font-size: 11px;
+        }
+
+        .segment-change.up { color: var(--green); }
+        .segment-change.down { color: var(--red); }
+
+        /* Highlight Box */
+        .highlight-box {
+            background: linear-gradient(135deg, rgba(255,107,53,0.1), rgba(255,107,53,0.05));
+            border: 1px solid var(--pingan-orange);
+            border-radius: 12px;
+            padding: 16px;
+        }
+
+        .highlight-box h3 {
+            font-size: 14px;
+            font-weight: 600;
+            margin-bottom: 12px;
+            color: var(--pingan-orange);
+        }
+
+        .highlight-box ul {
+            list-style: none;
+        }
+
+        .highlight-box li {
+            font-size: 13px;
+            color: var(--text-secondary);
+            margin-bottom: 8px;
+            padding-left: 16px;
+            position: relative;
+        }
+
+        .highlight-box li::before {
+            content: '✓';
+            position: absolute;
+            left: 0;
+            color: var(--pingan-orange);
+            font-size: 10px;
+        }
+
+        /* AI Summary */
+        .ai-summary {
+            background: var(--bg-card);
+            border-radius: 12px;
+            padding: 20px;
+            border: 1px solid var(--border-color);
+        }
+
+        .ai-summary h3 {
+            font-size: 16px;
+            font-weight: 600;
+            margin-bottom: 16px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .ai-summary h3::before {
+            content: '🤖';
+        }
+
+        .ai-summary p {
+            font-size: 13px;
+            color: var(--text-secondary);
+            margin-bottom: 12px;
+            line-height: 1.8;
+        }
+
+        .ai-summary .verdict {
+            background: rgba(255,107,53,0.1);
+            border-left: 4px solid var(--pingan-orange);
+            padding: 12px 16px;
+            border-radius: 0 8px 8px 0;
+            font-size: 13px;
+            line-height: 1.8;
+        }
+
+        .ai-summary .verdict strong {
+            color: var(--pingan-orange);
+        }
+
+        /* Footer */
+        .footer {
+            text-align: center;
+            padding: 24px 16px;
+            border-top: 1px solid var(--border-color);
+            font-size: 11px;
+            color: var(--text-secondary);
+        }
+
+        .footer p {
+            margin-bottom: 8px;
+        }
+
+        /* Desktop Toggle */
+        .desktop-toggle {
+            position: fixed;
+            top: 16px;
+            right: 16px;
+            z-index: 1001;
+        }
+
+        .desktop-toggle a {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 44px;
+            height: 44px;
+            border-radius: 50%;
+            background: var(--pingan-orange);
+            color: white;
+            text-decoration: none;
+            font-size: 12px;
+            font-weight: 600;
+            box-shadow: 0 4px 12px rgba(255,107,53,0.4);
+        }
+
+        /* Bottom Tab Bar */
+        .bottom-nav {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: rgba(26,26,46,0.98);
+            backdrop-filter: blur(10px);
+            border-top: 1px solid var(--border-color);
+            display: flex;
+            z-index: 1000;
+            padding: 8px 0;
+            padding-bottom: max(8px, env(safe-area-inset-bottom));
+        }
+
+        /* Mobile Back Button */
+        .mobile-back {
+            position: fixed;
+            right: 0;
+            top: 50%;
+            transform: translateY(-50%);
+            z-index: 101;
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-right: none;
+            border-radius: 12px 0 0 12px;
+            padding: 14px 10px;
+            text-decoration: none;
+            color: var(--text-secondary);
+            font-size: 12px;
+            font-weight: 500;
+            writing-mode: vertical-rl;
+            letter-spacing: 2px;
+            transition: all 0.3s ease;
+            box-shadow: -2px 0 10px rgba(0,0,0,0.2);
+        }
+        .mobile-back:hover {
+            color: white;
+            border-color: rgba(255,255,255,0.2);
+            transform: translateY(-50%) translateX(-4px);
+        }
+
+        .bottom-nav a {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 4px;
+            text-decoration: none;
+            color: var(--text-secondary);
+            font-size: 10px;
+            transition: color 0.3s;
+            padding: 6px 0;
+        }
+
+        .bottom-nav a.active {
+            color: var(--pingan-orange);
+        }
+
+        .bottom-nav .nav-icon {
+            font-size: 20px;
+        }
+
+        /* Tab Navigation */
+        .tab-nav {
+            display: flex;
+            gap: 8px;
+            margin-bottom: 20px;
+            overflow-x: auto;
+            -webkit-overflow-scrolling: touch;
+            padding-bottom: 8px;
+        }
+
+        .tab-btn {
+            flex-shrink: 0;
+            padding: 8px 16px;
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 20px;
+            color: var(--text-secondary);
+            font-size: 13px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .tab-btn.active {
+            background: var(--pingan-orange);
+            border-color: var(--pingan-orange);
+            color: white;
+        }
+
+        .tab-content {
+            display: none;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <span class="header-badge">2025年度财报</span>
+        <h1>中国平安</h1>
+        <p>综合金融 · 医疗养老 · 科技赋能</p>
+    </header>
+
+    <div class="container">
+        <!-- Summary Strip -->
+        <div class="summary-strip">
+            <div class="summary-item">
+                <div class="summary-number">10,505亿</div>
+                <div class="summary-label">营业收入</div>
+            </div>
+            <div class="summary-item">
+                <div class="summary-number">1,344亿</div>
+                <div class="summary-label">归母营运利润</div>
+            </div>
+            <div class="summary-item">
+                <div class="summary-number">1,438亿</div>
+                <div class="summary-label">扣非净利润</div>
+            </div>
+        </div>
+
+        <!-- Tab Navigation -->
+        <div class="tab-nav">
+            <button class="tab-btn active" onclick="showTab('kpi')" data-tab="kpi">核心指标</button>
+            <button class="tab-btn" onclick="showTab('business')" data-tab="business">业务板块</button>
+            <button class="tab-btn" onclick="showTab('operation')" data-tab="operation">运营指标</button>
+            <button class="tab-btn" onclick="showTab('investment')" data-tab="investment">投资能力</button>
+            <button class="tab-btn" onclick="showTab('ai')" data-tab="ai">AI总结</button>
+        </div>
+
+        <!-- KPI Tab -->
+        <div id="tab-kpi" class="tab-content active">
+            <section class="section">
+                <h2 class="section-title">核心财务指标</h2>
+                
+                <div class="kpi-grid">
+                    <div class="kpi-card">
+                        <div class="kpi-label">📊 营业收入</div>
+                        <div class="kpi-value">10,505<span class="unit">亿</span></div>
+                        <span class="kpi-change positive">+2.1% ↑</span>
+                    </div>
+                    <div class="kpi-card">
+                        <div class="kpi-label">💰 扣非净利润</div>
+                        <div class="kpi-value">1,438<span class="unit">亿</span></div>
+                        <span class="kpi-change positive">+22.5% ↑</span>
+                    </div>
+                    <div class="kpi-card">
+                        <div class="kpi-label">📈 营运利润</div>
+                        <div class="kpi-value">1,344<span class="unit">亿</span></div>
+                        <span class="kpi-change positive">+10.3% ↑</span>
+                    </div>
+                    <div class="kpi-card">
+                        <div class="kpi-label">🏦 归母净资产</div>
+                        <div class="kpi-value">10,004<span class="unit">亿</span></div>
+                        <span class="kpi-change positive">+7.7% ↑</span>
+                    </div>
+                    <div class="kpi-card">
+                        <div class="kpi-label">💵 每股股息</div>
+                        <div class="kpi-value">2.70<span class="unit">元</span></div>
+                        <span class="kpi-change positive">+5.9% ↑</span>
+                    </div>
+                    <div class="kpi-card">
+                        <div class="kpi-label">🎯 新业务价值</div>
+                        <div class="kpi-value">369<span class="unit">亿</span></div>
+                        <span class="kpi-change positive">+29.3% ↑</span>
+                    </div>
+                </div>
+
+                <div class="chart-container">
+                    <div class="chart-title">近三年归母净利润对比</div>
+                    <div class="chart-wrapper">
+                        <canvas id="profitChartMobile"></canvas>
+                    </div>
+                </div>
+
+                <div class="chart-container">
+                    <div class="chart-title">近三年归母营运利润趋势</div>
+                    <div class="chart-wrapper">
+                        <canvas id="opeProfitMobile"></canvas>
+                    </div>
+                </div>
+            </section>
+        </div>
+
+        <!-- Business Tab -->
+        <div id="tab-business" class="tab-content">
+            <section class="section">
+                <h2 class="section-title">业务板块分析</h2>
+                
+                <div class="highlight-box" style="margin-bottom: 16px;">
+                    <h3>🏆 核心亮点</h3>
+                    <ul>
+                        <li>新业务价值369亿，同比+29.3%，连续3年双位数增长</li>
+                        <li>产险综合成本率96.8%，近5年最优</li>
+                        <li>银保渠道NBV 94亿，行业第一，同比+138%</li>
+                    </ul>
+                </div>
+
+                <div class="segment-list">
+                    <div class="segment-item">
+                        <div class="segment-left">
+                            <span class="segment-icon">🏥</span>
+                            <span class="segment-name">寿险及健康险</span>
+                        </div>
+                        <div class="segment-right">
+                            <div class="segment-value">998亿</div>
+                            <div class="segment-change up">营运利润 +2.9%</div>
+                        </div>
+                    </div>
+                    <div class="segment-item">
+                        <div class="segment-left">
+                            <span class="segment-icon">🚗</span>
+                            <span class="segment-name">财产保险</span>
+                        </div>
+                        <div class="segment-right">
+                            <div class="segment-value">169亿</div>
+                            <div class="segment-change up">营运利润 +13.2%</div>
+                        </div>
+                    </div>
+                    <div class="segment-item">
+                        <div class="segment-left">
+                            <span class="segment-icon">🏦</span>
+                            <span class="segment-name">银行业务</span>
+                        </div>
+                        <div class="segment-right">
+                            <div class="segment-value">247亿</div>
+                            <div class="segment-change down">营运利润 -4.2%</div>
+                        </div>
+                    </div>
+                    <div class="segment-item">
+                        <div class="segment-left">
+                            <span class="segment-icon">📊</span>
+                            <span class="segment-name">资产管理</span>
+                        </div>
+                        <div class="segment-right">
+                            <div class="segment-value">-38亿</div>
+                            <div class="segment-change up">减亏 68.2%</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="chart-container" style="margin-top: 16px;">
+                    <div class="chart-title">各业务板块营运利润构成</div>
+                    <div class="chart-wrapper">
+                        <canvas id="segmentMobile"></canvas>
+                    </div>
+                </div>
+            </section>
+        </div>
+
+        <!-- Investment Tab -->
+        <div id="tab-investment" class="tab-content">
+            <section class="section">
+                <h2 class="section-title">投资能力</h2>
+                
+                <div class="kpi-grid">
+                    <div class="kpi-card">
+                        <div class="kpi-label">📊 综合投资收益率</div>
+                        <div class="kpi-value">6.3%</div>
+                        <span class="kpi-change positive">+0.5pps ↑ 近5年最高</span>
+                    </div>
+                    <div class="kpi-card">
+                        <div class="kpi-label">💵 净投资收益率</div>
+                        <div class="kpi-value">4.0%</div>
+                        <span class="kpi-change positive">超出假设 90bps</span>
+                    </div>
+                    <div class="kpi-card">
+                        <div class="kpi-label">🏦 投资资产规模</div>
+                        <div class="kpi-value">6.49<span class="unit">万亿</span></div>
+                        <span class="kpi-change positive">+13.2% ↑</span>
+                    </div>
+                    <div class="kpi-card">
+                        <div class="kpi-label">📈 FVTOCI股票</div>
+                        <div class="kpi-value">5,413<span class="unit">亿</span></div>
+                        <span class="kpi-change positive">占比57%</span>
+                    </div>
+                </div>
+
+                <div class="chart-container">
+                    <div class="chart-title">投资资产配置结构</div>
+                    <div class="chart-wrapper">
+                        <canvas id="assetAllocMobile"></canvas>
+                    </div>
+                </div>
+
+                <div class="chart-container">
+                    <div class="chart-title">综合投资收益率近五年</div>
+                    <div class="chart-wrapper">
+                        <canvas id="invReturnMobile"></canvas>
+                    </div>
+                </div>
+
+                <div class="highlight-box">
+                    <h3>💡 投资策略</h3>
+                    <ul>
+                        <li>FVTOCI股票超5,000亿作为"压舱石"</li>
+                        <li>固收占比73%，权益20%，另类8%</li>
+                        <li>10年前开始布局高股息股票</li>
+                    </ul>
+                </div>
+            </section>
+        </div>
+
+        <!-- Operation Tab -->
+        <div id="tab-operation" class="tab-content">
+            <section class="section">
+                <h2 class="section-title">核心运营指标</h2>
+                
+                <div class="kpi-grid">
+                    <div class="kpi-card">
+                        <div class="kpi-label">👥 个人客户数</div>
+                        <div class="kpi-value">2.51<span class="unit">亿</span></div>
+                        <span class="kpi-change positive">+3.5% ↑</span>
+                    </div>
+                    <div class="kpi-card">
+                        <div class="kpi-label">📝 客均合同数</div>
+                        <div class="kpi-value">2.94<span class="unit">个</span></div>
+                        <span class="kpi-change positive">+0.7% ↑</span>
+                    </div>
+                    <div class="kpi-card">
+                        <div class="kpi-label">🎯 新业务价值率</div>
+                        <div class="kpi-value">28.5%</div>
+                        <span class="kpi-change positive">+5.8pps ↑</span>
+                    </div>
+                    <div class="kpi-card">
+                        <div class="kpi-label">✅ 13个月继续率</div>
+                        <div class="kpi-value">97.4%</div>
+                        <span class="kpi-change positive">+1.0pps ↑</span>
+                    </div>
+                    <div class="kpi-card">
+                        <div class="kpi-label">🏥 产险综合成本率</div>
+                        <div class="kpi-value">96.8%</div>
+                        <span class="kpi-change positive">优化1.5pps</span>
+                    </div>
+                    <div class="kpi-card">
+                        <div class="kpi-label">🛡️ 集团偿付能力</div>
+                        <div class="kpi-value">208%</div>
+                        <span class="kpi-change positive">远高于监管</span>
+                    </div>
+                </div>
+
+                <div class="chart-container">
+                    <div class="chart-title">新业务价值近三年增长</div>
+                    <div class="chart-wrapper">
+                        <canvas id="nbvMobile"></canvas>
+                    </div>
+                </div>
+
+                <div class="chart-container">
+                    <div class="chart-title">偿付能力充足率</div>
+                    <div class="chart-wrapper">
+                        <canvas id="solvencyMobile"></canvas>
+                    </div>
+                </div>
+
+                <div class="highlight-box">
+                    <h3>🏅 品牌实力</h3>
+                    <ul>
+                        <li>《财富》世界500强第47位，全球金融企业第9位</li>
+                        <li>Brand Finance全球保险品牌价值500强第32位</li>
+                        <li>MSCI ESG评级中国内地唯一入选险企</li>
+                    </ul>
+                </div>
+            </section>
+        </div>
+
+        <!-- AI Tab -->
+        <div id="tab-ai" class="tab-content">
+            <section class="section">
+                <h2 class="section-title">AI 总结</h2>
+                
+                <div class="ai-summary">
+                    <h3>财报核心解读</h3>
+                    <p>
+                        中国平安2025年全年实现营业收入10,505亿元，归母营运利润1,344亿元，同比增长10.3%，连续两年保持近双位数增长。扣非归母净利润达1,438亿元，同比大增22.5%，超出市场预期。
+                    </p>
+                    <p>
+                        <strong>业务结构持续优化：</strong>寿险及健康险业务保持稳健，财产保险表现亮眼同比增长13.2%，新业务价值连续3年保持双位数增长，银保渠道新业务价值94亿元行业第一。
+                    </p>
+                    <p>
+                        <strong>投资能力穿越周期：</strong>综合投资收益率6.3%创近5年最高，FVTOCI股票规模超5,000亿元作为"压舱石"贡献稳定股息。
+                    </p>
+                    <div class="verdict">
+                        <strong>虾砌码观点：</strong>中国平安2025年财报展现出"综合金融+医疗养老"战略的成效显著。核心指标稳健增长，新业务价值增速强劲，投资收益率创5年新高。分红同比+5.9%，连续10年提升股东回报。品牌实力全球领先，ESG评级中国保险业唯一。综合来看，中国平安是一家质地优良、战略清晰、执行力强的综合金融集团，当前估值具备吸引力。
+                    </div>
+                </div>
+            </section>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <p>📊 数据来源：中国平安2025年业绩报告</p>
+        <p>⚠️ 仅供参考，不构成投资建议</p>
+        <p>🦞 分析整理：虾砌码</p>
+    </footer>
+
+    <!-- Bottom Navigation -->
+    <nav class="bottom-nav">
+        <a href="#" onclick="showTab('kpi'); return false;" class="active" data-tab="kpi">
+            <span class="nav-icon">📊</span>
+            <span>核心指标</span>
+        </a>
+        <a href="#" onclick="showTab('business'); return false;" data-tab="business">
+            <span class="nav-icon">🏢</span>
+            <span>业务板块</span>
+        </a>
+        <a href="#" onclick="showTab('operation'); return false;" data-tab="operation">
+            <span class="nav-icon">📈</span>
+            <span>运营指标</span>
+        </a>
+        <a href="#" onclick="showTab('investment'); return false;" data-tab="investment">
+            <span class="nav-icon">💰</span>
+            <span>投资能力</span>
+        </a>
+        <a href="#" onclick="showTab('ai'); return false;" data-tab="ai">
+            <span class="nav-icon">🤖</span>
+            <span>AI总结</span>
+        </a>
+    </nav>
+
+    <!-- Back to Index -->
+    <a href="../index.html" class="mobile-back">← 目录</a>
+
+    <script>
+        function showTab(tabName) {
+            document.querySelectorAll('.tab-content').forEach(el => el.classList.remove('active'));
+            document.querySelectorAll('.tab-btn').forEach(el => el.classList.remove('active'));
+            document.querySelectorAll('.bottom-nav a').forEach(el => el.classList.remove('active'));
+            document.getElementById('tab-' + tabName).classList.add('active');
+            const topBtn = document.querySelector('.tab-btn[data-tab="' + tabName + '"]');
+            const bottomBtn = document.querySelector('.bottom-nav a[data-tab="' + tabName + '"]');
+            if (topBtn) topBtn.classList.add('active');
+            if (bottomBtn) bottomBtn.classList.add('active');
+        }
+
+        const orange = '#FF6B35';
+        const orangeLight = '#FF8A5B';
+        const blue = '#0066CC';
+        const green = '#00C853';
+
+        // Profit Chart
+        new Chart(document.getElementById('profitChartMobile'), {
+            type: 'bar',
+            data: {
+                labels: ['2023年', '2024年', '2025年'],
+                datasets: [{
+                    label: '归母净利润',
+                    data: [862, 1174, 1348],
+                    backgroundColor: orange,
+                    borderRadius: 4
+                }, {
+                    label: '扣非净利润',
+                    data: [862, 1174, 1438],
+                    backgroundColor: '#00B4D8',
+                    borderRadius: 4
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: {
+                        position: 'bottom',
+                        labels: { color: '#ffffff', font: { size: 11 }, padding: 8 }
+                    }
+                },
+                scales: {
+                    y: {
+                        grid: { color: '#2a2a4a' },
+                        ticks: { color: '#a0a0b0', font: { size: 10 } }
+                    },
+                    x: {
+                        grid: { display: false },
+                        ticks: { color: '#a0a0b0', font: { size: 10 } }
+                    }
+                }
+            }
+        });
+
+        // Operating Profit Chart
+        new Chart(document.getElementById('opeProfitMobile'), {
+            type: 'line',
+            data: {
+                labels: ['2023年', '2024年', '2025年'],
+                datasets: [{
+                    label: '归母营运利润（亿元）',
+                    data: [1117, 1219, 1344],
+                    borderColor: orange,
+                    backgroundColor: 'rgba(255,107,53,0.1)',
+                    fill: true,
+                    tension: 0.4,
+                    pointBackgroundColor: orange,
+                    pointRadius: 4
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: {
+                        labels: { color: '#ffffff', font: { size: 11 } }
+                    }
+                },
+                scales: {
+                    y: {
+                        grid: { color: '#2a2a4a' },
+                        ticks: { color: '#a0a0b0', font: { size: 10 } }
+                    },
+                    x: {
+                        grid: { display: false },
+                        ticks: { color: '#a0a0b0', font: { size: 10 } }
+                    }
+                }
+            }
+        });
+
+        // Segment Chart
+        new Chart(document.getElementById('segmentMobile'), {
+            type: 'doughnut',
+            data: {
+                labels: ['寿险', '银行', '产险', '资产'],
+                datasets: [{
+                    data: [998, 247, 169, -38],
+                    backgroundColor: [orange, blue, green, '#FF3D00'],
+                    borderWidth: 0
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: {
+                        position: 'bottom',
+                        labels: { color: '#ffffff', font: { size: 10 }, padding: 8 }
+                    }
+                }
+            }
+        });
+
+        // Asset Allocation Chart
+        new Chart(document.getElementById('assetAllocMobile'), {
+            type: 'pie',
+            data: {
+                labels: ['固收', '权益', '另类'],
+                datasets: [{
+                    data: [73, 20, 8],
+                    backgroundColor: [blue, orange, '#9C27B0'],
+                    borderWidth: 0
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: {
+                        position: 'bottom',
+                        labels: { color: '#ffffff', font: { size: 10 }, padding: 8 }
+                    }
+                }
+            }
+        });
+
+        // Investment Return Chart
+        new Chart(document.getElementById('invReturnMobile'), {
+            type: 'line',
+            data: {
+                labels: ['2021', '2022', '2023', '2024', '2025'],
+                datasets: [{
+                    label: '综合投资收益率',
+                    data: [5.8, 4.9, 3.6, 5.8, 6.3],
+                    borderColor: orange,
+                    backgroundColor: 'rgba(255,107,53,0.1)',
+                    fill: true,
+                    tension: 0.4,
+                    pointRadius: 3
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: {
+                        labels: { color: '#ffffff', font: { size: 10 } }
+                    }
+                },
+                scales: {
+                    y: {
+                        grid: { color: '#2a2a4a' },
+                        ticks: {
+                            color: '#a0a0b0',
+                            font: { size: 10 },
+                            callback: value => value + '%'
+                        }
+                    },
+                    x: {
+                        grid: { display: false },
+                        ticks: { color: '#a0a0b0', font: { size: 10 } }
+                    }
+                }
+            }
+        });
+
+        // NBV Mobile Chart
+        new Chart(document.getElementById('nbvMobile'), {
+            type: 'bar',
+            data: {
+                labels: ['2023年', '2024年', '2025年'],
+                datasets: [{
+                    label: '新业务价值（亿元）',
+                    data: [259, 286, 369],
+                    backgroundColor: ['#4ECDC4', orange, '#FF6B6B'],
+                    borderRadius: 4
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: {
+                        labels: { color: '#ffffff', font: { size: 11 } }
+                    }
+                },
+                scales: {
+                    y: {
+                        grid: { color: '#2a2a4a' },
+                        ticks: { color: '#a0a0b0', font: { size: 10 } }
+                    },
+                    x: {
+                        grid: { display: false },
+                        ticks: { color: '#a0a0b0', font: { size: 10 } }
+                    }
+                }
+            }
+        });
+
+        // Solvency Mobile Chart
+        new Chart(document.getElementById('solvencyMobile'), {
+            type: 'bar',
+            data: {
+                labels: ['集团', '平安寿险', '平安产险'],
+                datasets: [{
+                    label: '偿付能力充足率',
+                    data: [208, 195, 217],
+                    backgroundColor: [orange, blue, green],
+                    borderRadius: 4
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                indexAxis: 'y',
+                plugins: {
+                    legend: {
+                        labels: { color: '#ffffff', font: { size: 11 } }
+                    }
+                },
+                scales: {
+                    y: {
+                        grid: { display: false },
+                        ticks: { color: '#a0a0b0', font: { size: 10 } }
+                    },
+                    x: {
+                        grid: { color: '#2a2a4a' },
+                        ticks: {
+                            color: '#a0a0b0',
+                            font: { size: 10 },
+                            callback: value => value + '%'
+                        }
+                    }
+                }
+            }
+        });
+    </script>
+</body>
+</html>
