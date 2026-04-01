@@ -1,0 +1,1180 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>华为2025年度财报分析报告</title>
+    <script src="../chart.umd.min.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@300;400;500;700;900&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --huawei-red: #CF0A2C;
+            --huawei-red-dark: #A00820;
+            --huawei-red-light: #FF1A40;
+            --huawei-blue: #003D8C;
+            --huawei-gold: #FFD700;
+            --bg-dark: #0a0a12;
+            --bg-card: #12121f;
+            --bg-card-hover: #1a1a2e;
+            --text-primary: #ffffff;
+            --text-secondary: #a0a0b8;
+            --border-color: #252540;
+            --green: #00E676;
+            --red: #FF3D5A;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'Noto Sans SC', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: var(--bg-dark);
+            color: var(--text-primary);
+            line-height: 1.7;
+            overflow-x: hidden;
+        }
+
+        /* Hero Section */
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            background: linear-gradient(135deg, #0a0a12 0%, #1a0a10 50%, #0a0a12 100%);
+            position: relative;
+            overflow: hidden;
+            padding: 40px 20px;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(ellipse at center, rgba(207,10,44,0.1) 0%, transparent 60%);
+            animation: pulse 8s ease-in-out infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); opacity: 0.5; }
+            50% { transform: scale(1.1); opacity: 1; }
+        }
+
+        .hero-badge {
+            display: inline-block;
+            background: linear-gradient(135deg, var(--huawei-red), var(--huawei-red-dark));
+            color: white;
+            padding: 8px 24px;
+            border-radius: 50px;
+            font-size: 14px;
+            font-weight: 500;
+            margin-bottom: 24px;
+            letter-spacing: 2px;
+        }
+
+        .hero h1 {
+            font-size: clamp(36px, 6vw, 72px);
+            font-weight: 900;
+            background: linear-gradient(135deg, #ffffff 0%, #ffccd5 50%, #ffffff 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 16px;
+            letter-spacing: -1px;
+        }
+
+        .hero-subtitle {
+            font-size: clamp(16px, 2.5vw, 24px);
+            color: var(--text-secondary);
+            margin-bottom: 8px;
+            font-weight: 300;
+        }
+
+        .hero-date {
+            font-size: 14px;
+            color: var(--huawei-red-light);
+            margin-bottom: 48px;
+            letter-spacing: 3px;
+        }
+
+        .hero-stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 24px;
+            max-width: 1000px;
+            width: 100%;
+        }
+
+        .hero-stat {
+            background: rgba(255,255,255,0.03);
+            border: 1px solid rgba(255,255,255,0.08);
+            border-radius: 20px;
+            padding: 28px 20px;
+            backdrop-filter: blur(20px);
+            transition: all 0.3s ease;
+        }
+
+        .hero-stat:hover {
+            transform: translateY(-4px);
+            border-color: rgba(207,10,44,0.4);
+            box-shadow: 0 20px 60px rgba(207,10,44,0.15);
+        }
+
+        .hero-stat-value {
+            font-size: 36px;
+            font-weight: 900;
+            color: white;
+            line-height: 1;
+        }
+
+        .hero-stat-label {
+            font-size: 13px;
+            color: var(--text-secondary);
+            margin-top: 8px;
+        }
+
+        .hero-stat-change {
+            display: inline-block;
+            margin-top: 12px;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 13px;
+            font-weight: 600;
+        }
+
+        .hero-stat-change.up {
+            background: rgba(0,230,118,0.15);
+            color: var(--green);
+        }
+
+        .scroll-hint {
+            position: absolute;
+            bottom: 40px;
+            left: 50%;
+            transform: translateX(-50%);
+            color: var(--text-secondary);
+            font-size: 13px;
+            animation: bounce 2s infinite;
+        }
+
+        @keyframes bounce {
+            0%, 100% { transform: translateX(-50%) translateY(0); }
+            50% { transform: translateX(-50%) translateY(8px); }
+        }
+
+        /* Navigation */
+        .nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 1000;
+            background: rgba(10,10,18,0.85);
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid var(--border-color);
+            padding: 0 24px;
+            transition: all 0.3s ease;
+        }
+
+        .nav-inner {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            align-items: center;
+            height: 64px;
+            gap: 32px;
+            overflow-x: auto;
+            scrollbar-width: none;
+        }
+
+        .nav-inner::-webkit-scrollbar { display: none; }
+
+        .nav-logo {
+            font-size: 18px;
+            font-weight: 700;
+            color: var(--huawei-red);
+            white-space: nowrap;
+            flex-shrink: 0;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 8px;
+            flex-wrap: nowrap;
+        }
+
+        .nav-link {
+            padding: 8px 16px;
+            border-radius: 8px;
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-size: 14px;
+            white-space: nowrap;
+            transition: all 0.2s;
+        }
+
+        .nav-link:hover {
+            background: rgba(207,10,44,0.1);
+            color: var(--huawei-red);
+        }
+
+        /* Sections */
+        .section {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 80px 24px;
+        }
+
+        .section-title {
+            font-size: 36px;
+            font-weight: 700;
+            margin-bottom: 48px;
+            text-align: center;
+        }
+
+        .section-title span {
+            background: linear-gradient(135deg, var(--huawei-red), var(--huawei-gold));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        /* KPI Cards */
+        .kpi-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 20px;
+            margin-bottom: 40px;
+        }
+
+        .kpi-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 16px;
+            padding: 24px;
+            transition: all 0.3s;
+        }
+
+        .kpi-card:hover {
+            border-color: rgba(207,10,44,0.4);
+            transform: translateY(-4px);
+        }
+
+        .kpi-label {
+            font-size: 13px;
+            color: var(--text-secondary);
+            margin-bottom: 8px;
+        }
+
+        .kpi-value {
+            font-size: 28px;
+            font-weight: 700;
+            color: white;
+            margin-bottom: 8px;
+        }
+
+        .kpi-change {
+            font-size: 13px;
+            padding: 4px 10px;
+            border-radius: 20px;
+            display: inline-block;
+        }
+
+        .kpi-change.up {
+            background: rgba(0,230,118,0.15);
+            color: var(--green);
+        }
+
+        .kpi-change.down {
+            background: rgba(255,61,90,0.15);
+            color: var(--red);
+        }
+
+        /* Chart Container */
+        .chart-container {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 20px;
+            padding: 32px;
+            margin-bottom: 24px;
+        }
+
+        .chart-title {
+            font-size: 18px;
+            font-weight: 600;
+            margin-bottom: 24px;
+            color: white;
+        }
+
+        .chart-wrapper {
+            position: relative;
+            height: 350px;
+        }
+
+        /* Business Cards */
+        .business-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px;
+        }
+
+        .business-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 16px;
+            padding: 28px;
+            transition: all 0.3s;
+        }
+
+        .business-card:hover {
+            border-color: rgba(207,10,44,0.4);
+            transform: translateY(-4px);
+        }
+
+        .business-icon {
+            width: 56px;
+            height: 56px;
+            border-radius: 14px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            margin-bottom: 16px;
+        }
+
+        .business-name {
+            font-size: 16px;
+            font-weight: 600;
+            margin-bottom: 12px;
+        }
+
+        .business-revenue {
+            font-size: 24px;
+            font-weight: 700;
+            margin-bottom: 4px;
+        }
+
+        .business-percent {
+            font-size: 13px;
+            color: var(--text-secondary);
+        }
+
+        .business-change {
+            font-size: 13px;
+            margin-top: 12px;
+            padding: 4px 10px;
+            border-radius: 20px;
+            display: inline-block;
+        }
+
+        /* Table Styles */
+        .data-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 24px;
+            table-layout: fixed;
+        }
+
+        .data-table th:first-child {
+            width: 40%;
+        }
+
+        .data-table th,
+        .data-table td {
+            padding: 16px 20px;
+            text-align: left;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .data-table th {
+            background: rgba(207,10,44,0.1);
+            color: var(--huawei-red);
+            font-weight: 600;
+            font-size: 13px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .data-table td {
+            color: var(--text-secondary);
+            font-size: 14px;
+        }
+
+        .data-table tr:hover td {
+            background: rgba(255,255,255,0.02);
+        }
+
+        .data-table .highlight {
+            color: white;
+            font-weight: 600;
+        }
+
+        /* Region Cards */
+        .region-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 20px;
+        }
+
+        .region-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 16px;
+            padding: 24px;
+            text-align: center;
+        }
+
+        .region-name {
+            font-size: 14px;
+            color: var(--text-secondary);
+            margin-bottom: 8px;
+        }
+
+        .region-revenue {
+            font-size: 22px;
+            font-weight: 700;
+            margin-bottom: 4px;
+        }
+
+        .region-percent {
+            font-size: 12px;
+            color: var(--text-secondary);
+        }
+
+        /* Summary Box */
+        .summary-box {
+            background: linear-gradient(135deg, rgba(207,10,44,0.1), rgba(0,61,140,0.1));
+            border: 1px solid rgba(207,10,44,0.2);
+            border-radius: 20px;
+            padding: 40px;
+            margin-top: 40px;
+        }
+
+        .summary-box h3 {
+            font-size: 20px;
+            margin-bottom: 16px;
+            color: var(--huawei-red);
+        }
+
+        .summary-box p {
+            color: var(--text-secondary);
+            font-size: 15px;
+            line-height: 1.8;
+        }
+
+        /* AI Summary */
+        .ai-summary {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 20px;
+            padding: 40px;
+            margin-top: 40px;
+        }
+
+        .ai-summary h3 {
+            font-size: 20px;
+            margin-bottom: 20px;
+            color: white;
+        }
+
+        .ai-summary-content {
+            color: var(--text-secondary);
+            font-size: 15px;
+            line-height: 1.9;
+        }
+
+        .ai-summary-content p {
+            margin-bottom: 16px;
+        }
+
+        /* Back Button */
+        .back-btn {
+            position: fixed;
+            right: 24px;
+            top: 50%;
+            transform: translateY(-50%);
+            background: var(--huawei-red);
+            color: white;
+            padding: 16px 12px;
+            border-radius: 24px;
+            text-decoration: none;
+            font-size: 14px;
+            writing-mode: vertical-rl;
+            transition: all 0.3s;
+            box-shadow: 0 4px 20px rgba(207,10,44,0.3);
+            z-index: 999;
+        }
+
+        .back-btn:hover {
+            transform: translateY(-50%) translateX(-4px);
+            box-shadow: 0 8px 30px rgba(207,10,44,0.4);
+        }
+
+        /* Footer */
+        .footer {
+            text-align: center;
+            padding: 40px 24px;
+            color: var(--text-secondary);
+            font-size: 13px;
+            border-top: 1px solid var(--border-color);
+        }
+
+        /* Responsive */
+        @media (max-width: 1024px) {
+            .kpi-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            .business-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            .region-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (max-width: 768px) {
+            .kpi-grid {
+                grid-template-columns: 1fr;
+            }
+            .business-grid {
+                grid-template-columns: 1fr;
+            }
+            .region-grid {
+                grid-template-columns: 1fr;
+            }
+            .section-title {
+                font-size: 28px;
+            }
+            .hero h1 {
+                font-size: 36px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="nav">
+        <div class="nav-inner">
+            <div class="nav-logo">🦞 虾砌码财报分析</div>
+            <div class="nav-links">
+                <a href="#kpi" class="nav-link">核心指标</a>
+                <a href="#revenue" class="nav-link">营收分析</a>
+                <a href="#profit" class="nav-link">利润分析</a>
+                <a href="#balance" class="nav-link">资产负债表</a>
+                <a href="#cashflow" class="nav-link">现金流</a>
+                <a href="#business" class="nav-link">业务构成</a>
+                <a href="#summary" class="nav-link">AI总结</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero" id="home">
+        <div class="hero-badge">2025年度报告</div>
+        <h1>华为投资控股有限公司</h1>
+        <p class="hero-subtitle">构建万物互联的智能世界</p>
+        <p class="hero-date">财报分析报告 · 2025年度</p>
+        
+        <div class="hero-stats">
+            <div class="hero-stat">
+                <div class="hero-stat-value">8,809亿</div>
+                <div class="hero-stat-label">营业收入</div>
+                <span class="hero-stat-change up">↑ 2.2%</span>
+            </div>
+            <div class="hero-stat">
+                <div class="hero-stat-value">680亿</div>
+                <div class="hero-stat-label">净利润</div>
+                <span class="hero-stat-change up">↑ 8.7%</span>
+            </div>
+            <div class="hero-stat">
+                <div class="hero-stat-value">11.0%</div>
+                <div class="hero-stat-label">营业利润率</div>
+                <span class="hero-stat-change up">↑ 1.8pct</span>
+            </div>
+            <div class="hero-stat">
+                <div class="hero-stat-value">1.27万亿</div>
+                <div class="hero-stat-label">总资产</div>
+                <span class="hero-stat-change up">↑ 3.5%</span>
+            </div>
+        </div>
+
+        <div class="scroll-hint">↓ 向下滚动查看详细分析</div>
+    </section>
+
+    <!-- KPI Section -->
+    <section class="section" id="kpi">
+        <h2 class="section-title"><span>📊 核心财务指标</span></h2>
+        
+        <div class="kpi-grid">
+            <div class="kpi-card">
+                <div class="kpi-label">营业收入</div>
+                <div class="kpi-value">8,809亿元</div>
+                <span class="kpi-change up">同比 +2.2%</span>
+            </div>
+            <div class="kpi-card">
+                <div class="kpi-label">净利润</div>
+                <div class="kpi-value">680亿元</div>
+                <span class="kpi-change up">同比 +8.7%</span>
+            </div>
+            <div class="kpi-card">
+                <div class="kpi-label">毛利润</div>
+                <div class="kpi-value">4,083亿元</div>
+                <span class="kpi-change up">同比 +6.7%</span>
+            </div>
+            <div class="kpi-card">
+                <div class="kpi-label">毛利率</div>
+                <div class="kpi-value">46.3%</div>
+                <span class="kpi-change up">同比 +1.9pct</span>
+            </div>
+            <div class="kpi-card">
+                <div class="kpi-label">研发费用</div>
+                <div class="kpi-value">1,923亿元</div>
+                <span class="kpi-change up">占营收 21.8%</span>
+            </div>
+            <div class="kpi-card">
+                <div class="kpi-label">经营活动现金流</div>
+                <div class="kpi-value">1,274亿元</div>
+                <span class="kpi-change up">同比 +44.1%</span>
+            </div>
+            <div class="kpi-card">
+                <div class="kpi-label">总资产</div>
+                <div class="kpi-value">1.27万亿元</div>
+                <span class="kpi-change up">同比 +3.5%</span>
+            </div>
+            <div class="kpi-card">
+                <div class="kpi-label">资产负债率</div>
+                <div class="kpi-value">55.0%</div>
+                <span class="kpi-change down">同比 -2.8pct</span>
+            </div>
+        </div>
+    </section>
+
+    <!-- Revenue Analysis -->
+    <section class="section" id="revenue">
+        <h2 class="section-title"><span>📈 营收分析</span></h2>
+        
+        <div class="chart-container">
+            <div class="chart-title">五年营业收入趋势（单位：亿元人民币）</div>
+            <div class="chart-wrapper">
+                <canvas id="revenueChart"></canvas>
+            </div>
+        </div>
+
+        <div class="chart-container">
+            <div class="chart-title">2025年各业务板块营收占比</div>
+            <div class="chart-wrapper">
+                <canvas id="businessPieChart"></canvas>
+            </div>
+        </div>
+    </section>
+
+    <!-- Profit Analysis -->
+    <section class="section" id="profit">
+        <h2 class="section-title"><span>💰 利润分析</span></h2>
+        
+        <div class="chart-container">
+            <div class="chart-title">五年净利润与营业利润趋势（单位：亿元人民币）</div>
+            <div class="chart-wrapper">
+                <canvas id="profitChart"></canvas>
+            </div>
+        </div>
+
+        <div class="chart-container">
+            <div class="chart-title">利润指标对比（单位：%）</div>
+            <div class="chart-wrapper">
+                <canvas id="marginChart"></canvas>
+            </div>
+        </div>
+    </section>
+
+    <!-- Balance Sheet -->
+    <section class="section" id="balance">
+        <h2 class="section-title"><span>🏦 资产负债表</span></h2>
+        
+        <div class="chart-container">
+            <div class="chart-title">资产与负债构成（单位：亿元人民币）</div>
+            <div class="chart-wrapper">
+                <canvas id="balanceChart"></canvas>
+            </div>
+        </div>
+
+        <div class="data-table">
+            <table style="width:100%; table-layout: fixed;">
+                <thead>
+                    <tr>
+                        <th>项目</th>
+                        <th>2025年</th>
+                        <th>2024年</th>
+                        <th>同比变动</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>非流动资产</td>
+                        <td class="highlight">5,281</td>
+                        <td>4,757</td>
+                        <td class="highlight" style="color: var(--green);">+11.0%</td>
+                    </tr>
+                    <tr>
+                        <td>流动资产</td>
+                        <td class="highlight">8,069</td>
+                        <td>8,145</td>
+                        <td style="color: var(--red);">-0.9%</td>
+                    </tr>
+                    <tr>
+                        <td>其中：现金与短期投资</td>
+                        <td class="highlight">3,614</td>
+                        <td>3,722</td>
+                        <td style="color: var(--red);">-2.9%</td>
+                    </tr>
+                    <tr>
+                        <td>应收账款</td>
+                        <td class="highlight">1,136</td>
+                        <td>1,096</td>
+                        <td class="highlight" style="color: var(--green);">+3.7%</td>
+                    </tr>
+                    <tr>
+                        <td>存货</td>
+                        <td class="highlight">1,950</td>
+                        <td>1,791</td>
+                        <td class="highlight" style="color: var(--green);">+8.9%</td>
+                    </tr>
+                    <tr>
+                        <td>总资产</td>
+                        <td class="highlight">13,349</td>
+                        <td>12,901</td>
+                        <td class="highlight" style="color: var(--green);">+3.5%</td>
+                    </tr>
+                    <tr>
+                        <td>所有者权益</td>
+                        <td class="highlight">6,001</td>
+                        <td>5,446</td>
+                        <td class="highlight" style="color: var(--green);">+10.2%</td>
+                    </tr>
+                    <tr>
+                        <td>负债合计</td>
+                        <td class="highlight">7,348</td>
+                        <td>7,455</td>
+                        <td style="color: var(--green);">-1.4%</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </section>
+
+    <!-- Cash Flow -->
+    <section class="section" id="cashflow">
+        <h2 class="section-title"><span>💵 现金流量分析</span></h2>
+        
+        <div class="chart-container">
+            <div class="chart-title">五年经营活动现金流（单位：亿元人民币）</div>
+            <div class="chart-wrapper">
+                <canvas id="cashflowChart"></canvas>
+            </div>
+        </div>
+
+        <div class="kpi-grid">
+            <div class="kpi-card">
+                <div class="kpi-label">经营活动现金流净额</div>
+                <div class="kpi-value">1,274亿</div>
+                <span class="kpi-change up">同比 +44.1%</span>
+            </div>
+            <div class="kpi-card">
+                <div class="kpi-label">现金与短期投资</div>
+                <div class="kpi-value">3,614亿</div>
+                <span class="kpi-change down">同比 -2.9%</span>
+            </div>
+            <div class="kpi-card">
+                <div class="kpi-label">长短期借款</div>
+                <div class="kpi-value">2,393亿</div>
+                <span class="kpi-change down">同比 -9.7%</span>
+            </div>
+            <div class="kpi-card">
+                <div class="kpi-label">净借债减少</div>
+                <div class="kpi-value">256亿</div>
+                <span class="kpi-change up">优化债务结构</span>
+            </div>
+        </div>
+    </section>
+
+    <!-- Business Segment -->
+    <section class="section" id="business">
+        <h2 class="section-title"><span>🏢 业务板块分析</span></h2>
+        
+        <div class="business-grid">
+            <div class="business-card">
+                <div class="business-icon" style="background: rgba(0,61,140,0.2);">📡</div>
+                <div class="business-name">ICT基础设施</div>
+                <div class="business-revenue">3,750亿</div>
+                <div class="business-percent">营收占比 42.6%</div>
+                <span class="business-change up">同比 +2.6%</span>
+            </div>
+            <div class="business-card">
+                <div class="business-icon" style="background: rgba(207,10,44,0.2);">📱</div>
+                <div class="business-name">终端业务</div>
+                <div class="business-revenue">3,445亿</div>
+                <div class="business-percent">营收占比 39.1%</div>
+                <span class="business-change up">同比 +1.6%</span>
+            </div>
+            <div class="business-card">
+                <div class="business-icon" style="background: rgba(100,100,200,0.2);">☁️</div>
+                <div class="business-name">云计算业务</div>
+                <div class="business-revenue">322亿</div>
+                <div class="business-percent">营收占比 3.7%</div>
+                <span class="business-change down">同比 -3.5%</span>
+            </div>
+            <div class="business-card">
+                <div class="business-icon" style="background: rgba(0,200,100,0.2);">⚡</div>
+                <div class="business-name">数字能源</div>
+                <div class="business-revenue">773亿</div>
+                <div class="business-percent">营收占比 8.8%</div>
+                <span class="business-change up">同比 +12.7%</span>
+            </div>
+            <div class="business-card">
+                <div class="business-icon" style="background: rgba(255,200,0,0.2);">🚗</div>
+                <div class="business-name">智能汽车解决方案</div>
+                <div class="business-revenue">450亿</div>
+                <div class="business-percent">营收占比 5.1%</div>
+                <span class="business-change up">同比 +72.1%</span>
+            </div>
+            <div class="business-card">
+                <div class="business-icon" style="background: rgba(150,150,150,0.2);">📦</div>
+                <div class="business-name">其他业务</div>
+                <div class="business-revenue">70亿</div>
+                <div class="business-percent">营收占比 0.8%</div>
+                <span class="business-change down">同比 -76.4%</span>
+            </div>
+        </div>
+
+        <h3 style="margin-top: 48px; margin-bottom: 24px; font-size: 20px;">🌍 区域营收分布</h3>
+        
+        <div class="region-grid">
+            <div class="region-card">
+                <div class="region-name">中国大陆</div>
+                <div class="region-revenue">6,162亿</div>
+                <div class="region-percent">占比 70% · +0.2%</div>
+            </div>
+            <div class="region-card">
+                <div class="region-name">欧洲中东非洲</div>
+                <div class="region-revenue">1,614亿</div>
+                <div class="region-percent">占比 18% · +8.8%</div>
+            </div>
+            <div class="region-card">
+                <div class="region-name">亚太地区</div>
+                <div class="region-revenue">501亿</div>
+                <div class="region-percent">占比 6% · +15.7%</div>
+            </div>
+            <div class="region-card">
+                <div class="region-name">美洲地区</div>
+                <div class="region-revenue">372亿</div>
+                <div class="region-percent">占比 4% · +2.4%</div>
+            </div>
+        </div>
+    </section>
+
+    <!-- AI Summary -->
+    <section class="section" id="summary">
+        <h2 class="section-title"><span>🤖 AI 综合总结</span></h2>
+        
+        <div class="ai-summary">
+            <h3>📋 华为2025年度财报核心看点</h3>
+            <div class="ai-summary-content">
+                <p><strong>🔢 整体经营：稳健增长</strong></p>
+                <p>2025年华为实现销售收入8,809亿元人民币，同比增长2.2%。在全球ICT行业面临复杂外部环境的背景下，华为展现出强大的经营韧性。净利润达680亿元，同比增长8.7%，净利润增速显著高于营收增速，显示公司盈利能力持续提升。</p>
+                
+                <p><strong>📊 盈利能力：毛利率显著提升</strong></p>
+                <p>毛利率从44.4%提升至46.3%，上升1.9个百分点，创近年来新高。营业利润率达11.0%，同比提升1.8个百分点，逼近历史最好水平。公司坚持高强度研发投入（研发费用率21.8%），同时保持优异的盈利能力，体现出"技术领先+高效运营"的双轮驱动模式。</p>
+                
+                <p><strong>🚗 智能汽车：72%高速增长</strong></p>
+                <p>智能汽车解决方案业务表现最为亮眼，营收达450亿元，同比增长72.1%，成为增长最快的业务板块。鸿蒙智行、乾崑智驾等产品快速放量，携手600多家产业链伙伴，共同推动汽车智能化产业高质量发展。搭载乾崑智驾的车辆累计辅助驾驶里程超70亿公里。</p>
+                
+                <p><strong>📱 终端业务：鸿蒙生态突破</strong></p>
+                <p>终端业务营收3,445亿元，同比增长1.6%，保持稳健。鸿蒙生态实现里程碑式突破，HarmonyOS 5/6终端设备突破3,600万台，注册开发者超1,000万名，应用市场可获取应用超35万款。鸿蒙生态跨越"体验临界点"，从可用走向好用。</p>
+                
+                <p><strong>💰 财务健康度：持续改善</strong></p>
+                <p>资产负债率优化至55.0%，同比下降2.8个百分点。债务结构持续优化，长短期借款同比减少256亿元。经营活动现金流达1,274亿元，同比增长44.1%，造血能力显著增强。现金储备充裕（3,614亿元），财务风险可控。</p>
+                
+                <p><strong>🔬 战略投入：研发持续加码</strong></p>
+                <p>研发费用达1,923亿元，占营收比重21.8%，同比提升1个百分点。过去三年研发投入均超过销售收入20%，在AI、芯片、通信等领域持续构建技术护城河。昇腾AI算力、鲲鹏计算生态、鸿蒙操作系统等核心业务竞争力持续强化。</p>
+                
+                <p><strong>📈 五年 CAGR：复合增长率亮眼</strong></p>
+                <p>2021-2025年，销售收入复合增长率达8%，展现出在复杂环境下的持续增长能力。净利润从352亿元增长至680亿元，复合增长率近18%，显示盈利能力进入加速提升期。</p>
+            </div>
+        </div>
+
+        <div class="summary-box">
+            <h3>🎯 投资亮点</h3>
+            <p>1. <strong>智能汽车爆发</strong>：72%营收增速最快，乾崑智驾+鸿蒙座舱加速渗透，智能汽车业务未来有望成为第二增长曲线；</p>
+            <p>2. <strong>鸿蒙生态成熟</strong>：1,000万开发者、3,600万终端设备，生态壁垒逐步形成，终端业务盈利能力有望持续提升；</p>
+            <p>3. <strong>AI算力领跑</strong>：昇腾384超节点规模服务，鲲鹏昇腾开发者超800万，算力底座优势显著；</p>
+            <p>4. <strong>财务结构健康</strong>：资产负债率持续下降，经营现金流大幅改善，研发投入强度维持高位。</p>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <p>🦞 虾砌码财报分析 · 华为2025年度财报 · 数据来源：公司年报</p>
+        <p style="margin-top: 8px; opacity: 0.6;">本报告仅供参考，不构成投资建议</p>
+    </footer>
+
+    <!-- Back Button -->
+    <a href="https://financial.1tik.top/" class="back-btn">← 返回目录</a>
+
+    <script>
+        // Revenue Chart
+        new Chart(document.getElementById('revenueChart'), {
+            type: 'line',
+            data: {
+                labels: ['2021', '2022', '2023', '2024', '2025'],
+                datasets: [{
+                    label: '营业收入',
+                    data: [6368, 6423, 7042, 8621, 8809],
+                    borderColor: '#CF0A2C',
+                    backgroundColor: 'rgba(207,10,44,0.1)',
+                    fill: true,
+                    tension: 0.4,
+                    pointRadius: 6,
+                    pointHoverRadius: 8
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: { display: false }
+                },
+                scales: {
+                    y: {
+                        grid: { color: 'rgba(255,255,255,0.05)' },
+                        ticks: { color: '#a0a0b8' }
+                    },
+                    x: {
+                        grid: { display: false },
+                        ticks: { color: '#a0a0b8' }
+                    }
+                }
+            }
+        });
+
+        // Business Pie Chart
+        new Chart(document.getElementById('businessPieChart'), {
+            type: 'doughnut',
+            data: {
+                labels: ['ICT基础设施', '终端业务', '云计算', '数字能源', '智能汽车', '其他'],
+                datasets: [{
+                    data: [3750, 3445, 322, 773, 450, 70],
+                    backgroundColor: [
+                        '#003D8C',
+                        '#CF0A2C',
+                        '#6666CC',
+                        '#00C864',
+                        '#FFC800',
+                        '#9696A0'
+                    ],
+                    borderWidth: 0
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: {
+                        position: 'right',
+                        labels: { color: '#a0a0b8', padding: 16 }
+                    }
+                }
+            }
+        });
+
+        // Profit Chart
+        new Chart(document.getElementById('profitChart'), {
+            type: 'bar',
+            data: {
+                labels: ['2021', '2022', '2023', '2024', '2025'],
+                datasets: [
+                    {
+                        label: '净利润',
+                        data: [1137, 356, 870, 626, 680],
+                        backgroundColor: '#CF0A2C',
+                        borderRadius: 8
+                    },
+                    {
+                        label: '营业利润',
+                        data: [1214, 422, 1044, 794, 969],
+                        backgroundColor: '#003D8C',
+                        borderRadius: 8
+                    }
+                ]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: {
+                        labels: { color: '#a0a0b8' }
+                    }
+                },
+                scales: {
+                    y: {
+                        grid: { color: 'rgba(255,255,255,0.05)' },
+                        ticks: { color: '#a0a0b8' }
+                    },
+                    x: {
+                        grid: { display: false },
+                        ticks: { color: '#a0a0b8' }
+                    }
+                }
+            }
+        });
+
+        // Margin Chart
+        new Chart(document.getElementById('marginChart'), {
+            type: 'line',
+            data: {
+                labels: ['2021', '2022', '2023', '2024', '2025'],
+                datasets: [
+                    {
+                        label: '毛利率',
+                        data: [48.2, 44.4, 48.3, 44.4, 46.3],
+                        borderColor: '#00C864',
+                        tension: 0.4,
+                        pointRadius: 6
+                    },
+                    {
+                        label: '营业利润率',
+                        data: [19.1, 6.6, 14.8, 9.2, 11.0],
+                        borderColor: '#CF0A2C',
+                        tension: 0.4,
+                        pointRadius: 6
+                    },
+                    {
+                        label: '净利率',
+                        data: [17.9, 5.5, 12.3, 7.3, 7.7],
+                        borderColor: '#003D8C',
+                        tension: 0.4,
+                        pointRadius: 6
+                    }
+                ]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: {
+                        labels: { color: '#a0a0b8' }
+                    }
+                },
+                scales: {
+                    y: {
+                        grid: { color: 'rgba(255,255,255,0.05)' },
+                        ticks: { 
+                            color: '#a0a0b8',
+                            callback: v => v + '%'
+                        }
+                    },
+                    x: {
+                        grid: { display: false },
+                        ticks: { color: '#a0a0b8' }
+                    }
+                }
+            }
+        });
+
+        // Balance Chart
+        new Chart(document.getElementById('balanceChart'), {
+            type: 'bar',
+            data: {
+                labels: ['现金与短期投资', '应收账款', '存货', '非流动资产', '借款', '应付账款', '合同负债'],
+                datasets: [{
+                    label: '2025年',
+                    data: [3614, 1136, 1950, 5281, 2393, 1139, 1168],
+                    backgroundColor: '#CF0A2C',
+                    borderRadius: 8
+                }, {
+                    label: '2024年',
+                    data: [3722, 1096, 1791, 4757, 2649, 1049, 975],
+                    backgroundColor: '#003D8C',
+                    borderRadius: 8
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: {
+                        labels: { color: '#a0a0b8' }
+                    }
+                },
+                scales: {
+                    y: {
+                        grid: { color: 'rgba(255,255,255,0.05)' },
+                        ticks: { color: '#a0a0b8' }
+                    },
+                    x: {
+                        grid: { display: false },
+                        ticks: { color: '#a0a0b8' }
+                    }
+                }
+            }
+        });
+
+        // Cash Flow Chart
+        new Chart(document.getElementById('cashflowChart'), {
+            type: 'line',
+            data: {
+                labels: ['2021', '2022', '2023', '2024', '2025'],
+                datasets: [{
+                    label: '经营活动现金流',
+                    data: [597, 178, 698, 884, 1274],
+                    borderColor: '#00C864',
+                    backgroundColor: 'rgba(0,200,100,0.1)',
+                    fill: true,
+                    tension: 0.4,
+                    pointRadius: 6,
+                    pointHoverRadius: 8
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: { display: false }
+                },
+                scales: {
+                    y: {
+                        grid: { color: 'rgba(255,255,255,0.05)' },
+                        ticks: { color: '#a0a0b8' }
+                    },
+                    x: {
+                        grid: { display: false },
+                        ticks: { color: '#a0a0b8' }
+                    }
+                }
+            }
+        });
+
+        // Smooth scroll
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function(e) {
+                e.preventDefault();
+                document.querySelector(this.getAttribute('href')).scrollIntoView({
+                    behavior: 'smooth'
+                });
+            });
+        });
+
+        // Nav background on scroll
+        window.addEventListener('scroll', () => {
+            const nav = document.querySelector('.nav');
+            if (window.scrollY > 100) {
+                nav.style.background = 'rgba(10,10,18,0.95)';
+            } else {
+                nav.style.background = 'rgba(10,10,18,0.85)';
+            }
+        });
+    </script>
+</body>
+</html>

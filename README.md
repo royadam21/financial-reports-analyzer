@@ -103,6 +103,16 @@ function showTab(tabName) {
 ## 参考模板
 
 腾讯财报分析（已完成）：
-- 目录：`C:\Users\11985\.openclaw\workspace\projects\腾讯财报\`
+- 目录：`C:\Users\11985\.openclaw\workspace_coding\projects\财报分析\tencent_report_2025\`
 - PC端：`tencent_report_2025.html`
 - 移动端：`tencent_report_2025_mobile.html`
+
+美团财报分析（已完成）：
+- 目录：`C:\Users\11985\.openclaw\workspace_coding\projects\财报分析\meituan_report_2025\`
+- PC端：`meituan_report_2025.html`
+- 移动端：`meituan_report_2025_mobile.html`
+
+比亚迪财报分析（已完成）：
+- 目录：`C:\Users\11985\.openclaw\workspace_coding\projects\财报分析\byd_report_2025\`
+- PC端：`byd_report_2025.html`
+- 移动端：`byd_report_2025_mobile.html`
